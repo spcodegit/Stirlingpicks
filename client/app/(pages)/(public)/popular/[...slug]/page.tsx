@@ -1,173 +1,154 @@
 'use client';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'next/navigation';
 import MatchesTable, { Match } from '@/app/components/sports/MatchesTable';
+import { betService, MatchOdds } from '@/app/services/betService';
+import { Loader2 } from 'lucide-react';
 
-const mockMatches: Match[] = [
-    {
-        id: '1',
-        dateTime: '22 Jul 20:00',
-        homeTeam: 'England Women',
-        awayTeam: 'Italy Women',
-        
-        odds: {
-            home: '1/2',
-            draw: '3/1',
-            away: '24/5',
-        },
-        points: '+280',
-    },
-    {
-        id: '2',
-        dateTime: '23 Jul 20:00',
-        homeTeam: 'Germany Women',
-        awayTeam: 'Spain Women',
-        
-        odds: {
-            home: '4/1',
-            draw: '16/5',
-            away: '8/15',
-        },
-        points: '+164',
-    },
-    {
-        id: '3',
-        dateTime: '21 Jul 17:00',
-        homeTeam: 'Unirea Slobozia',
-        awayTeam: 'Miercurea Ciuc',
-        
-        odds: {
-            home: '10/11',
-            draw: '11/5',
-            away: '14/5',
-        },
-        points: '+109',
-    },
-    {
-        id: '4',
-        dateTime: '21 Jul 18:00',
-        homeTeam: 'Norrkoping',
-        awayTeam: 'Varnamo',
-        
-        odds: {
-            home: '5/4',
-            draw: '5/2',
-            away: '19/10',
-        },
-        points: '+209',
-    },
-    {
-        id: '5',
-        dateTime: '21 Jul 18:00',
-        homeTeam: 'Landskrona',
-        awayTeam: 'Trelleborg',
-        
-        odds: {
-            home: '6/5',
-            draw: '9/4',
-            away: '2/1',
-        },
-        points: '+59',
-    },
-    {
-        id: '6',
-        dateTime: '21 Jul 18:00',
-        homeTeam: 'Utsikten',
-        awayTeam: 'Helsingborg',
-        
-        odds: {
-            home: '19/10',
-            draw: '12/5',
-            away: '6/5',
-        },
-        points: '+105',
-    },
-    {
-        id: '7',
-        dateTime: '24 Jul 15:00',
-        homeTeam: 'Manchester City',
-        awayTeam: 'Liverpool',
-        
-        odds: {
-            home: '6/5',
-            draw: '5/2',
-            away: '2/1',
-        },
-        points: '+320',
-    },
-    {
-        id: '8',
-        dateTime: '24 Jul 17:30',
-        homeTeam: 'Arsenal',
-        awayTeam: 'Chelsea',
-        
-        odds: {
-            home: '4/5',
-            draw: '3/1',
-            away: '7/2',
-        },
-        points: '+185',
-    },
-    {
-        id: '9',
-        dateTime: '25 Jul 20:00',
-        homeTeam: 'Real Madrid',
-        awayTeam: 'Barcelona',
-        
-        odds: {
-            home: '11/10',
-            draw: '12/5',
-            away: '5/4',
-        },
-        points: '+450',
-    },
-    {
-        id: '10',
-        dateTime: '25 Jul 18:00',
-        homeTeam: 'Bayern Munich',
-        awayTeam: 'Dortmund',
-        
-        odds: {
-            home: '8/11',
-            draw: '3/1',
-            away: '7/2',
-        },
-        points: '+275',
-    },
-    {
-        id: '11',
-        dateTime: '26 Jul 14:00',
-        homeTeam: 'PSG',
-        awayTeam: 'Lyon',
-        
-        odds: {
-            home: '1/2',
-            draw: '7/2',
-            away: '5/1',
-        },
-        points: '+145',
-    },
-    {
-        id: '12',
-        dateTime: '26 Jul 19:00',
-        homeTeam: 'Juventus',
-        awayTeam: 'AC Milan',
-        
-        odds: {
-            home: '6/5',
-            draw: '11/5',
-            away: '2/1',
-        },
-        points: '+310',
-    },
-];
+const formatDateTime = (isoDate: string): string => {
+    const date = new Date(isoDate);
+    const day = date.getDate();
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const month = months[date.getMonth()];
+    const year = date.getFullYear();
+    return `${day} ${month} ${year}`;
+};
+
+// The API already returns odds in the correct format (fractional strings for 'fra',
+// decimal numbers for 'decimal') based on the 'output' query param sent by betService.
+const convertToMatch = (matchOdds: MatchOdds): Match | null => {
+    try {
+        const h2hMarket = matchOdds.bookmaker?.markets?.find(m => m.key === 'h2h');
+        if (!h2hMarket || !h2hMarket.outcomes) return null;
+
+        const homeOutcome = h2hMarket.outcomes.find(o => o.name === matchOdds.home_team);
+        const awayOutcome = h2hMarket.outcomes.find(o => o.name === matchOdds.away_team);
+        const drawOutcome = h2hMarket.outcomes.find(o => o.name === 'Draw');
+
+        const formatOdds = (price: any) => {
+            if (price === undefined || price === null || price === '') return 'N/A';
+            return price.toString();
+        };
+
+        return {
+            id: matchOdds.id,
+            dateTime: formatDateTime(matchOdds.commence_time),
+            homeTeam: matchOdds.home_team,
+            awayTeam: matchOdds.away_team,
+            odds: {
+                home: formatOdds(homeOutcome?.price),
+                draw: formatOdds(drawOutcome?.price),
+                away: formatOdds(awayOutcome?.price),
+            },
+            points: '+' + Math.floor(Math.random() * 400 + 50).toString(),
+        };
+    } catch (error) {
+        console.error('Error converting match:', error);
+        return null;
+    }
+};
 
 export default function PopularPage() {
+    const params = useParams();
+    const [leaguesData, setLeaguesData] = useState<{ [key: string]: Match[] }>({});
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string>('');
+    const [mounted, setMounted] = useState(false);
+    const [oddsFormat, setOddsFormat] = useState<'fra' | 'decimal'>('fra');
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
+
+    useEffect(() => {
+        if (!mounted) return;
+
+        const fetchMatches = async () => {
+            setLoading(true);
+            try {
+                const slug = Array.isArray(params.slug) ? params.slug.join('/') : params.slug || '';
+                const sportName = slug
+                    ? slug.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')
+                    : 'Soccer';
+
+                const response = await betService.getOddsBySport(sportName, oddsFormat);
+
+                if (response.status === 200 && response.data) {
+                    const grouped: { [key: string]: Match[] } = {};
+
+                    Object.entries(response.data).forEach(([leagueName, leagueMatches]) => {
+                        if (Array.isArray(leagueMatches)) {
+                            const formattedMatches = leagueMatches
+                                .map(m => convertToMatch(m as MatchOdds))
+                                .filter((m): m is Match => m !== null);
+
+                            if (formattedMatches.length > 0) {
+                                grouped[leagueName] = formattedMatches;
+                            }
+                        }
+                    });
+
+                    setLeaguesData(grouped);
+                    setError('');
+                } else {
+                    setError('No matches found');
+                }
+            } catch (err: any) {
+                console.error('Failed to fetch matches:', err);
+                setError(err.message || 'Failed to load matches');
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchMatches();
+    }, [params.slug, mounted, oddsFormat]);
+
+    const handleOddsFormatChange = (format: 'fra' | 'decimal') => {
+        setOddsFormat(format);
+    };
+
+    if (!mounted) return null;
+
+    if (loading) {
+        return (
+            <div className="w-full h-full bg-[var(--bg-primary)] flex items-center justify-center">
+                <div className="flex flex-col items-center gap-4">
+                    <Loader2 size={40} className="animate-spin text-[var(--bg-green-primary)]" />
+                    <p className="text-[var(--text-secondary)] font-inter text-sm">Loading matches...</p>
+                </div>
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <div className="w-full h-full bg-[var(--bg-primary)] flex items-center justify-center">
+                <div className="text-center">
+                    <p className="text-[var(--text-secondary)] font-inter text-lg mb-2">{error}</p>
+                    <p className="text-[var(--text-muted)] font-inter text-sm">Try selecting a different sport</p>
+                </div>
+            </div>
+        );
+    }
+
+    const hasLeagues = Object.keys(leaguesData).length > 0;
+
     return (
         <div className="w-full h-full bg-[var(--bg-primary)] flex flex-col overflow-hidden">
             <div className="flex-1 overflow-y-auto no-scrollbar">
-                <MatchesTable matches={mockMatches} />
+                {hasLeagues ? (
+                    <MatchesTable
+                        leaguesData={leaguesData}
+                        oddsFormat={oddsFormat}
+                        onOddsFormatChange={handleOddsFormatChange}
+                    />
+                ) : (
+                    <div className="flex items-center justify-center h-full">
+                        <p className="text-[var(--text-muted)] font-inter">No matches available</p>
+                    </div>
+                )}
             </div>
         </div>
     );
 }
-

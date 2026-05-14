@@ -14,62 +14,9 @@ const formatDateTime = (isoDate: string): string => {
 };
 
 // Helper function to convert decimal odds to fractional
-const decimalToFractional = (decimal: any): string => {
-    if (typeof decimal === 'string') {
-        if (decimal.includes('/')) return decimal;
-        decimal = parseFloat(decimal);
-    }
-    if (isNaN(decimal) || decimal <= 1) return '1/1';
-
-    const decimalMinusOne = decimal - 1;
-    const tolerance = 1.0e-6;
-
-    // Common fractions lookup for better display
-    const commonFractions: { [key: string]: string } = {
-        '0.5': '1/2',
-        '0.33': '1/3',
-        '0.25': '1/4',
-        '0.2': '1/5',
-        '0.67': '2/3',
-        '0.75': '3/4',
-        '1': '1/1',
-        '1.5': '3/2',
-        '2': '2/1',
-        '2.5': '5/2',
-        '3': '3/1',
-        '4': '4/1',
-        '5': '5/1',
-    };
-
-    const rounded = Math.round(decimalMinusOne * 100) / 100;
-    const key = rounded.toString();
-
-    if (commonFractions[key]) {
-        return commonFractions[key];
-    }
-
-    // Calculate fraction using continued fractions algorithm
-    let h1 = 1, h2 = 0, k1 = 0, k2 = 1;
-    let b = decimalMinusOne;
-
-    for (let i = 0; i < 16; i++) {
-        const a = Math.floor(b);
-        let aux = h1;
-        h1 = a * h1 + h2;
-        h2 = aux;
-        aux = k1;
-        k1 = a * k1 + k2;
-        k2 = aux;
-        b = 1 / (b - a);
-
-        if (Math.abs(decimalMinusOne - h1 / k1) < tolerance) break;
-    }
-
-    return `${h1}/${k1}`;
-};
-
-// Convert API match data to our Match interface
-const convertToMatch = (matchOdds: MatchOdds, currentFormat: 'fra' | 'decimal'): Match | null => {
+// The API already returns odds in the correct format (fractional strings for 'fra',
+// decimal numbers for 'decimal') based on the 'output' query param sent by betService.
+const convertToMatch = (matchOdds: MatchOdds): Match | null => {
     try {
         const h2hMarket = matchOdds.bookmaker?.markets?.find(m => m.key === 'h2h');
         if (!h2hMarket || !h2hMarket.outcomes) return null;
@@ -78,11 +25,9 @@ const convertToMatch = (matchOdds: MatchOdds, currentFormat: 'fra' | 'decimal'):
         const awayOutcome = h2hMarket.outcomes.find(o => o.name === matchOdds.away_team);
         const drawOutcome = h2hMarket.outcomes.find(o => o.name === 'Draw');
 
-        // Helper function for safe format conversion
         const formatOdds = (price: any) => {
             if (price === undefined || price === null || price === '') return 'N/A';
-            if (typeof price === 'string' && price.includes('/')) return price;
-            return currentFormat === 'fra' ? decimalToFractional(price) : price.toString();
+            return price.toString();
         };
 
         return {
@@ -130,7 +75,7 @@ export default function SportsIndexPage() {
                     Object.entries(response.data).forEach(([leagueName, leagueMatches]) => {
                         if (Array.isArray(leagueMatches)) {
                             const formattedMatches = leagueMatches
-                                .map(m => convertToMatch(m as MatchOdds, oddsFormat))
+                                .map(m => convertToMatch(m as MatchOdds))
                                 .filter((m): m is Match => m !== null);
 
                             if (formattedMatches.length > 0) {
