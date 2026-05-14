@@ -13,5 +13,8 @@ RUN yarn install
 # Copy the application code to the container
 COPY . .
 
+# Expose the port that the app will run on
+EXPOSE 8080
+
 # Define the command to run your app
 CMD ["yarn", "start"]

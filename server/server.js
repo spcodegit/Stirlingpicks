@@ -26,6 +26,9 @@ server.use(fileUpload({useTempFiles: false, tempFileDir: 'public'}))
 //--------------- Routes ---------------
 require('./routes/index')(server)
 
-const PORT = process.env.PORT || CONFIG.PORT || 8080;
 //--------------- PORT Setting ---------------
-server.listen(PORT, console.log("Running at PORT: " + PORT));
+const PORT = process.env.PORT || CONFIG.PORT || 8080;
+
+server.listen(port, '0.0.0.0', () => {
+    console.log(`Listening on port ${port}`);
+});
