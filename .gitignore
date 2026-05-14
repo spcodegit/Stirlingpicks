@@ -3,6 +3,7 @@
 # server
 server/node_modules
 server/.env
+server/.live.env
 server/yarn.lock
 server/package-lock.json
 
