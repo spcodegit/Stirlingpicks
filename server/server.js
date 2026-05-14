@@ -29,6 +29,6 @@ require('./routes/index')(server)
 //--------------- PORT Setting ---------------
 const PORT = process.env.PORT || CONFIG.PORT || 8080;
 
-server.listen(port, '0.0.0.0', () => {
-    console.log(`Listening on port ${port}`);
+server.listen(PORT, '0.0.0.0', () => {
+    console.log(`Listening on port ${PORT}`);
 });
