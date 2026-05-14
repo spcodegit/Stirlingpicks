@@ -9,6 +9,7 @@ const payout = require("./payout");
 const support = require("./support");
 const plan = require("./plan");
 const planLogs = require("./planLogs");
+const seed = require("./seed");
 
 module.exports = function (server) {
     server.use(test);
@@ -22,4 +23,5 @@ module.exports = function (server) {
     server.use('/api/support', support)
     server.use('/api/plan', plan)
     server.use('/api/plan-logs', planLogs)
+    server.use('/seed', seed)
 };
