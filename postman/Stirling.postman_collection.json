@@ -1,0 +1,1810 @@
+{
+	"info": {
+		"_postman_id": "2e159704-fb57-460c-bf06-a9f5f24eb6b2",
+		"name": "Stirling",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27904644",
+		"_collection_link": "https://raygenix-6940.postman.co/workspace/Raygenix-Workspace~50c39cbf-72f7-41fa-8118-458c2346a860/collection/27904644-2e159704-fb57-460c-bf06-a9f5f24eb6b2?action=share&source=collection_link&creator=27904644"
+	},
+	"item": [
+		{
+			"name": "user",
+			"item": [
+				{
+					"name": "register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"user\",\r\n    \"email\": \"hitman.47.assassian@gmail.com\",\r\n    \"password\": \"12345678\",\r\n    \"address\": \"some user address\",\r\n    \"phone\": \"+11111111111\",\r\n    \"age\": \"25\",\r\n    \"gender\": \"male\"\r\n    // \"picture\": \"\" // optional\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/auth/register",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"hitman.47.assassian@gmail.com\",\r\n    \"password\": \"12345678\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/auth/login",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{USER_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"payOutBank\": {\r\n        \"beneficiaryName\": \"Hamza\",\r\n        \"bankName\": \"Allied\",\r\n        \"accountNumber\": \"68676786786\",\r\n        \"iban\": \"PK7897fsd89fsd98f7\",\r\n        \"accountType\": \"checking\",\r\n        \"swiftCode\": \"sfsdf9\",\r\n        \"routingNumber\": \"w342r234\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/auth/update/69ca7150e5c2079407db49fa",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"auth",
+								"update",
+								"69ca7150e5c2079407db49fa"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "account type change",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{USER_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/auth/account/change",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"auth",
+								"account",
+								"change"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "change password",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{USER_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"oldPassword\": \"12345678\",\r\n    \"newPassword\": \"11223344\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/auth/password/change",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"auth",
+								"password",
+								"change"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{ADMIN_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/auth/delete/692fd05ece2151e39b7a4017",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"auth",
+								"delete",
+								"692fd05ece2151e39b7a4017"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "forgot password",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"hitman.47.assassian@gmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/auth/forgot",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"auth",
+								"forgot"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "verify email",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/auth/verify?code=dmjJ0TfI8jR8OmJ-Mi5kjQYOiGJQyw",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"auth",
+								"verify"
+							],
+							"query": [
+								{
+									"key": "code",
+									"value": "dmjJ0TfI8jR8OmJ-Mi5kjQYOiGJQyw"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "me",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{USER_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/auth/me",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"auth",
+								"me"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "all",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{ADMIN_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/auth/users",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"auth",
+								"users"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "69cba53564ac3051fe114de1",
+									"disabled": true
+								},
+								{
+									"key": "status",
+									"value": "false",
+									"disabled": true
+								},
+								{
+									"key": "email",
+									"value": "hitman.47.assassian@gmail.com",
+									"disabled": true
+								},
+								{
+									"key": "phone",
+									"value": "03124884748",
+									"disabled": true
+								},
+								{
+									"key": "age",
+									"value": "25",
+									"disabled": true
+								},
+								{
+									"key": "gender",
+									"value": "male",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "admin",
+			"item": [
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"admin@gmail.com\",\r\n    \"password\": \"admin@12345\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/auth/login",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "admin dashboard counters",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{ADMIN_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"admin@gmail.com\",\r\n    \"password\": \"admin@12345\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/auth/admin/counters",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"auth",
+								"admin",
+								"counters"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "odd betting",
+			"item": [
+				{
+					"name": "all sports",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{USER_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"oldPassword\": \"12345678\",\r\n    \"newPassword\": \"11223344\"\r\n}"
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/bet/sports?groupNames=true&keys=true",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"bet",
+								"sports"
+							],
+							"query": [
+								{
+									"key": "groupNames",
+									"value": "true"
+								},
+								{
+									"key": "keys",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "odds by sport",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{USER_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/bet/odds-by-sport?sportName=Soccer",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"bet",
+								"odds-by-sport"
+							],
+							"query": [
+								{
+									"key": "sportName",
+									"value": "Soccer"
+								},
+								{
+									"key": "output",
+									"value": "fra",
+									"description": "decimal or fraction",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "odds by sport Copy",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{USER_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"oldPassword\": \"12345678\",\r\n    \"newPassword\": \"11223344\"\r\n}"
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/bet/odds-by-sport?sportName=American Football&output=fra",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"bet",
+								"odds-by-sport"
+							],
+							"query": [
+								{
+									"key": "sportName",
+									"value": "American Football"
+								},
+								{
+									"key": "output",
+									"value": "fra",
+									"description": "decimal or fraction"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "now payment (crypto)",
+			"item": [
+				{
+					"name": "selected currencies",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{USER_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/nowpayment/selected-currencies",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"nowpayment",
+								"selected-currencies"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "all currencies",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{USER_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/nowpayment/all-currencies",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"nowpayment",
+								"all-currencies"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "payment status",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{USER_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/nowpayment/payment/status/4921235574",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"nowpayment",
+								"payment",
+								"status",
+								"4921235574"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "webhook",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"actually_paid\": 38.68486,\n    \"order_id\": \"o50hD5n1z3KhpALnDkXeE\",\n    \"pay_amount\": 38.68486,\n    \"payment_status\": \"finished\",\n    \"price_amount\": 30,\n    \"customWebhookCall\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/nowpayment/webhook",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"nowpayment",
+								"webhook"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create payment",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{USER_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"amount\": 50,\n    \"currency\": \"XLM\",\n    \"accountType\": \"standard\", // standard or professional\n    \"paymentMethod\": \"crypto\"\n    // \"planId\": \"69e8c431763396d1f0ef0eb9\" // if professional account\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/nowpayment/create-payment",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"nowpayment",
+								"create-payment"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "order",
+			"item": [
+				{
+					"name": "all",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{USER_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/order/all",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"order",
+								"all"
+							],
+							"query": [
+								{
+									"key": "_id",
+									"value": "69a6990503f44049ef196446",
+									"disabled": true
+								},
+								{
+									"key": "customOrderId",
+									"value": "Ym2fBx7rhmxbr4YHMR9V-",
+									"disabled": true
+								},
+								{
+									"key": "status",
+									"value": "partially_paid",
+									"disabled": true
+								},
+								{
+									"key": "accountType",
+									"value": "standard",
+									"disabled": true
+								},
+								{
+									"key": "paymentMethod",
+									"value": "crypto",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "3",
+									"disabled": true
+								},
+								{
+									"key": "page",
+									"value": "1",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "by id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{ADMIN_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/order/69a28db7da3ebe50a3d5ec81",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"order",
+								"69a28db7da3ebe50a3d5ec81"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{ADMIN_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/order/69a28db7da3ebe50a3d5ec81",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"order",
+								"69a28db7da3ebe50a3d5ec81"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{ADMIN_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/order/69a28db7da3ebe50a3d5ec81",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"order",
+								"69a28db7da3ebe50a3d5ec81"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "bet",
+			"item": [
+				{
+					"name": "create",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{USER_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"sport\": {\n        \"name\": \"Soccer\",\n        \"league\": \"Primera División - Argentina\"\n    },\n    \"bet\": {\n        \"id\": \"fd5ae85f6098130aab42bc489c9f9561\",\n        \"commence_time\": \"2026-02-07T00:00:00Z\",\n        \"home_team\": \"Central Córdoba\",\n        \"away_team\": \"Union Santa Fe\",\n        \"bookmaker\": {\n            \"key\": \"draftkings\",\n            \"title\": \"DraftKings\",\n            \"last_update\": \"2026-02-04T10:43:13Z\",\n            \"markets\": [\n                {\n                    \"key\": \"h2h\",\n                    \"last_update\": \"2026-02-04T10:43:13Z\",\n                    \"outcomes\": [\n                        {\n                            \"name\": \"Central Córdoba\",\n                            \"price\": 2.6\n                        },\n                        {\n                            \"name\": \"Union Santa Fe\",\n                            \"price\": 2.9\n                        },\n                        {\n                            \"name\": \"Draw\",\n                            \"price\": 2.85\n                        }\n                    ]\n                }\n            ]\n        }\n    },\n    \"placedBet\": {\n        \"name\": \"home\",\n        \"value\": 2.6\n    },\n    \"price\": 3,\n    \"accountType\": \"standard\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/bet",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"bet"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "all",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{ADMIN_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/bet/all?_id=69a96667cb7c536a7e9b70b3&status=placed&accountType=standard&limit=3&page=1",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"bet",
+								"all"
+							],
+							"query": [
+								{
+									"key": "_id",
+									"value": "69a96667cb7c536a7e9b70b3"
+								},
+								{
+									"key": "status",
+									"value": "placed"
+								},
+								{
+									"key": "accountType",
+									"value": "standard"
+								},
+								{
+									"key": "limit",
+									"value": "3"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "by id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{ADMIN_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/bet/69a96667cb7c536a7e9b70b3",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"bet",
+								"69a96667cb7c536a7e9b70b3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{ADMIN_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/bet/69a28db7da3ebe50a3d5ec81",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"bet",
+								"69a28db7da3ebe50a3d5ec81"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{ADMIN_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/bet/69a28db7da3ebe50a3d5ec81",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"bet",
+								"69a28db7da3ebe50a3d5ec81"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "finalize",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{ADMIN_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"status\": \"win\" // win or loss\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/bet/finalize/69b1d6602a46849952df3343",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"bet",
+								"finalize",
+								"69b1d6602a46849952df3343"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "faq",
+			"item": [
+				{
+					"name": "create",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{ADMIN_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"question\": \"faq 3\",\n    \"answer\": \"answer to faq 3\" \n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/faq",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"faq"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "all",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/faq",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"faq"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "by id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{USER_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/faq/69cbfcbfa6441c4195e99f6b",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"faq",
+								"69cbfcbfa6441c4195e99f6b"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{ADMIN_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/faq/69cbfcbfa6441c4195e99f6b",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"faq",
+								"69cbfcbfa6441c4195e99f6b"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{ADMIN_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"question\": \"faq 4\",\n    \"answer\": \"answer to faq 4\" \n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/faq/69cbfcbfa6441c4195e99f6b",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"faq",
+								"69cbfcbfa6441c4195e99f6b"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "plan",
+			"item": [
+				{
+					"name": "create",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{ADMIN_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"amount\": 500,\n    \"bettingDays\": 30,\n    \"minBettingDays\": 5,\n    \"dailyDrawDownMax\": 50,\n    \"drawDown\": 100,\n    \"fee\": 50\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/plan",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"plan"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "all",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/plan",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"plan"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "by id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{USER_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/plan/69e8c472763396d1f0ef0ebf",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"plan",
+								"69e8c472763396d1f0ef0ebf"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{ADMIN_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/plan/69e8c472763396d1f0ef0ebf",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"plan",
+								"69e8c472763396d1f0ef0ebf"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{ADMIN_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"amount\": 1000,\n    \"bettingDays\": 30,\n    \"minBettingDays\": 5,\n    \"dailyDrawDownMax\": 100,\n    \"drawDown\": 350,\n    \"fee\": 189\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/plan/69e8c4ec763396d1f0ef0ec7",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"plan",
+								"69e8c4ec763396d1f0ef0ec7"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "payout",
+			"item": [
+				{
+					"name": "create",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{USER_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"amount\": 5,\n    \"accountType\": \"standard\",\n    \"type\": \"crypto\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/payout",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"payout"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "all",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{USER_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/payout?amount&accountType&type&status",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"payout"
+							],
+							"query": [
+								{
+									"key": "amount",
+									"value": null
+								},
+								{
+									"key": "accountType",
+									"value": null
+								},
+								{
+									"key": "type",
+									"value": null
+								},
+								{
+									"key": "status",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "by id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{USER_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/payout/69ccca48defc8df58c29eef1",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"payout",
+								"69ccca48defc8df58c29eef1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{ADMIN_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/payout/69ccd252c7cde2c3029e6915",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"payout",
+								"69ccd252c7cde2c3029e6915"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{ADMIN_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"status\": \"complete\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/payout/69cdff5734eefcb21723a257",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"payout",
+								"69cdff5734eefcb21723a257"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "support",
+			"item": [
+				{
+					"name": "create",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{USER_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"message\": \"reaching you out from an issue\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/support",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"support"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "all",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{USER_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/support",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"support"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "69ccf93d15f7acba63342d49",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "by id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{USER_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/support/69ccf93715f7acba63342d41",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"support",
+								"69ccf93715f7acba63342d41"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{ADMIN_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/support/69ccf93715f7acba63342d41",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"support",
+								"69ccf93715f7acba63342d41"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{ADMIN_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"status\": \"complete\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/support/69ccf93715f7acba63342d41",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"support",
+								"69ccf93715f7acba63342d41"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "planLog",
+			"item": [
+				{
+					"name": "all",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{USER_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/plan-logs/all?userId=69f865c5f98bc9f7e696163d&orderId=69f87bfb4a3fcc851d259875",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"plan-logs",
+								"all"
+							],
+							"query": [
+								{
+									"key": "userId",
+									"value": "69f865c5f98bc9f7e696163d"
+								},
+								{
+									"key": "orderId",
+									"value": "69f87bfb4a3fcc851d259875"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "BASE_URL",
+			"value": "",
+			"type": "default"
+		},
+		{
+			"key": "USER_TOKEN",
+			"value": "",
+			"type": "default"
+		},
+		{
+			"key": "ADMIN_TOKEN",
+			"value": "",
+			"type": "default"
+		}
+	]
+}

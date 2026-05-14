@@ -1,0 +1,190 @@
+@import "tailwindcss";
+
+:root {
+  /* ===== BACKGROUND COLORS ===== */
+  --bg-primary: #14151C;
+  /* Main dark background (pages, cards) */
+  --bg-secondary: #1A1C22;
+  /* Slightly lighter dark background */
+  --bg-tertiary: #2A2A32;
+  /* Even lighter, used for borders/accents */
+
+  --bg-green-primary: #50F090;
+  /* Primary green (nav, layouts) */
+  --bg-green-header: rgba(71, 148, 102, 0.87);
+  /* Header/Sidebar green (#479466DE) */
+  --bg-green-footer: #4CA16A;
+  /* Footer green */
+  --bg-green-card: #1CDE82;
+  /* Promotion card green */
+  --bg-green-accent: #67DC62;
+  /* Title bar accent green */
+
+  --bg-navy-primary: #001D47;
+  /* Dark navy blue (login header) */
+  --bg-navy-secondary: #00112C;
+  /* Darker navy (login brand section) */
+  --bg-navy-hover: #00183D;
+  /* Navy hover state */
+
+  --bg-yellow-primary: #DBFF4D;
+  /* Primary yellow/lime accent */
+  --bg-yellow-hover: #c9e645;
+  /* Yellow hover state */
+  --bg-yellow-hover-alt: #c9ee3c;
+  /* Alternative yellow hover */
+  --bg-yellow-border: #c4e545;
+  /* Yellow border color */
+
+  --bg-gray-shape: #757373;
+  /* Promotion card shape */
+  --bg-white: #FFFFFF;
+  /* White background */
+  --bg-black: #000000;
+  /* Black background */
+
+  /* ===== TEXT COLORS ===== */
+  --text-primary: #FFFFFF;
+  /* Primary white text */
+  --text-secondary: rgba(255, 255, 255, 0.9);
+  /* Slightly muted white */
+  --text-tertiary: rgba(255, 255, 255, 0.7);
+  /* More muted white text */
+  --text-muted: rgba(255, 255, 255, 0.6);
+  /* Muted white text */
+
+  --text-black: #000000;
+  /* Black text */
+  --text-dark: #2D3748;
+  /* Dark gray text (inputs) */
+  --text-dark-secondary: #4A5568;
+  /* Medium gray text */
+
+  --text-gray-placeholder: #A0AEC0;
+  /* Placeholder gray */
+  --text-gray-muted: #C6D2E1;
+  /* Light gray (muted text) */
+
+  --text-link: #2B6CB0;
+  /* Blue link color */
+  --text-link-hover: #2c5282;
+  /* Blue link hover */
+
+  --text-yellow: #DBFF4D;
+  /* Yellow/lime accent text */
+  --text-yellow-hover: #e5ff80;
+  /* Yellow text hover */
+
+  /* ===== ACCENT/BRAND COLORS ===== */
+  --accent-blue: #3B82F6;
+  /* Focus/active blue */
+  --accent-blue-pattern: #4F7FFF;
+  /* Blue pattern color */
+
+  /* ===== BORDER COLORS ===== */
+  --border-primary: #2A2A32;
+  /* Primary border color */
+  --border-light: #C6D2E1;
+  /* Light border (inputs) */
+  --border-white: #FFFFFF;
+  /* White border */
+  --border-black: rgba(0, 0, 0, 0.1);
+  /* Black with opacity */
+
+  /* ===== SHADOW/OVERLAY COLORS ===== */
+  --overlay-dark: rgba(0, 0, 0, 0.5);
+  /* Dark overlay */
+  --overlay-white: rgba(255, 255, 255, 0.2);
+  /* White overlay */
+  --shadow-dark: rgba(0, 0, 0, 0.1);
+  /* Shadow color */
+
+  /* ===== DASHBOARD COLORS ===== */
+  --dash-sidebar-bg: #FFFFFF;
+  --dash-header-bg: #FFFFFF;
+  --dash-main-bg: #F8FAFC;
+  --dash-green: #00FF88;
+  --dash-green-hover: #00E67A;
+  --dash-active-bg: #E6F0FF;
+  --dash-active-text: #2563EB;
+  --dash-text-primary: #1E293B;
+  --dash-text-secondary: #64748B;
+  --dash-border: #E2E8F0;
+}
+
+@theme {
+  --font-orbitron: var(--font-orbitron-family), ui-sans-serif, system-ui;
+  --font-inter: var(--font-inter-family), ui-sans-serif, system-ui;
+  --font-krona-one: var(--font-krona-family), ui-sans-serif, system-ui;
+  --font-raleway: var(--font-raleway-family), ui-sans-serif, system-ui;
+
+  /* Extend Tailwind with CSS variable colors */
+  --color-bg-primary: var(--bg-primary);
+  --color-bg-secondary: var(--bg-secondary);
+  --color-bg-tertiary: var(--bg-tertiary);
+  --color-bg-green-primary: var(--bg-green-primary);
+  --color-bg-green-header: var(--bg-green-header);
+  --color-bg-green-footer: var(--bg-green-footer);
+  --color-bg-green-card: var(--bg-green-card);
+  --color-bg-green-accent: var(--bg-green-accent);
+  --color-bg-navy-primary: var(--bg-navy-primary);
+  --color-bg-navy-secondary: var(--bg-navy-secondary);
+  --color-bg-navy-hover: var(--bg-navy-hover);
+  --color-bg-yellow-primary: var(--bg-yellow-primary);
+  --color-bg-yellow-hover: var(--bg-yellow-hover);
+  --color-bg-yellow-hover-alt: var(--bg-yellow-hover-alt);
+  --color-bg-yellow-border: var(--bg-yellow-border);
+  --color-bg-gray-shape: var(--bg-gray-shape);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-tertiary: var(--text-tertiary);
+  --color-text-muted: var(--text-muted);
+  --color-text-black: var(--text-black);
+  --color-text-dark: var(--text-dark);
+  --color-text-dark-secondary: var(--text-dark-secondary);
+  --color-text-gray-placeholder: var(--text-gray-placeholder);
+  --color-text-gray-muted: var(--text-gray-muted);
+  --color-text-link: var(--text-link);
+  --color-text-link-hover: var(--text-link-hover);
+  --color-text-yellow: var(--text-yellow);
+  --color-text-yellow-hover: var(--text-yellow-hover);
+  --color-accent-blue: var(--accent-blue);
+  --color-accent-blue-pattern: var(--accent-blue-pattern);
+  --color-border-primary: var(--border-primary);
+  --color-border-light: var(--border-light);
+  --color-border-white: var(--border-white);
+  --color-border-black: var(--border-black);
+  --color-overlay-dark: var(--overlay-dark);
+  --color-overlay-white: var(--overlay-white);
+  --color-shadow-dark: var(--shadow-dark);
+
+  /* Dashboard Colors */
+  --color-dash-sidebar-bg: var(--dash-sidebar-bg);
+  --color-dash-header-bg: var(--dash-header-bg);
+  --color-dash-main-bg: var(--dash-main-bg);
+  --color-dash-green: var(--dash-green);
+  --color-dash-green-hover: var(--dash-green-hover);
+  --color-dash-active-bg: var(--dash-active-bg);
+  --color-dash-active-text: var(--dash-active-text);
+  --color-dash-text-primary: var(--dash-text-primary);
+  --color-dash-text-secondary: var(--dash-text-secondary);
+  --color-dash-border: var(--dash-border);
+}
+
+body {
+  font-family: var(--font-inter-family), ui-sans-serif, system-ui;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Utilities */
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}

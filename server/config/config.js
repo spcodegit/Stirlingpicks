@@ -1,0 +1,28 @@
+const ENV = process.env.NODE_ENV
+
+module.exports.CONFIG = {
+    PORT: process.env.PORT,
+    ENV: ENV,
+    DB_URI: ENV === "prod" ? process.env.DB_URI_PROD : process.env.DB_URI_DEV,
+    DB_ENVIRONMENT: ENV === "prod" ? "LIVE" : "LOCAL",
+    JWT_SECRET: process.env.JWT_SECRET,
+    JWT_EXPIRE: process.env.JWT_EXPIRE,
+    ENCRYPTION_KEY: process.env.ENCRYPTION_KEY,
+    MAIL_SERVICE: process.env.MAIL_SERVICE,
+    MAIL_HOST: process.env.MAIL_HOST,
+    MAIL_USERNAME: process.env.MAIL_USERNAME,
+    MAIL_PASSWORD: process.env.MAIL_PASSWORD,
+    MAIL_PORT: process.env.MAIL_PORT,
+    ADMIN_EMAIL: process.env.ADMIN_EMAIL,
+    COMPANY_NAME: process.env.COMPANY_NAME,
+    SERVER_URL: process.env.SERVER_URL,
+    CLIENT_URL: process.env.CLIENT_URL || "http://localhost:3000",
+    ODD_API_URL: process.env.ODD_API_URL,
+    ODD_API_KEY: process.env.ODD_API_KEY,
+    NOW_PAYMENT_IPN: process.env.NOW_PAYMENT_IPN,
+    NOW_PAYMENT_IPN_WEBHOOK_URL: process.env.NOW_PAYMENT_IPN_WEBHOOK_URL,
+    NOW_PAYMENT_PUBLIC_KEY: process.env.NOW_PAYMENT_PUBLIC_KEY,
+    NOW_PAYMENT_SECRET_KEY: process.env.NOW_PAYMENT_SECRET_KEY,
+    NOW_PAYMENT_URL: process.env.NOW_PAYMENT_URL,
+    PAGE_LIMIT: process.env.PAGE_LIMIT
+}

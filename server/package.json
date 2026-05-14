@@ -1,0 +1,30 @@
+{
+  "name": "stirlingpicks",
+  "version": "1.0.0",
+  "description": "- Clone the repository https://github.com/47hamza/nodejs-server-template.git - Run command `npm init` to initialize the project and create <b>package.json</b> file. - Run command `npm install -g nodemon yarn` to install <b>nodemon</b> and <b>yarn</b> globally. - Run command `yarn add bcryptjs body-parser cors dotenv express express-fileupload http-status-codes jsonwebtoken mongoose nodemailer nodemailer-smtp-transport nanoid` to install basic packages. - Create `.env` file from `.env.example` file and add your environment variables. - Run command `yarn seed` to seed the database. - Run command `yarn dev` to start the development server or `yarn start` to start the production server.",
+  "license": "ISC",
+  "author": "Hamza",
+  "type": "commonjs",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "seed": "node seed/seed.js"
+  },
+  "dependencies": {
+    "axios": "^1.13.2",
+    "bcryptjs": "^3.0.3",
+    "body-parser": "^2.2.1",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1",
+    "express-fileupload": "^1.5.2",
+    "http-status-codes": "^2.3.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^9.0.0",
+    "nanoid": "^3.3.11",
+    "nodemailer": "^7.0.11",
+    "nodemailer-smtp-transport": "^2.7.4"
+  }
+}
