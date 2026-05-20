@@ -2,6 +2,7 @@
 
 import React from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 interface PromotionCardProps {
     title: React.ReactNode;
@@ -49,17 +50,18 @@ export default function PromotionCard({
                         </p>
                     </div>
 
-                    <button
+                    <Link
+                        href="/sports/live"
                         className="font-raleway font-bold text-[10px] text-[var(--text-black)] bg-[var(--bg-yellow-primary)] rounded-[10px] border border-[var(--border-white)] transition-all uppercase flex items-center justify-center cursor-pointer shadow-md mt-auto mb-8"
                         style={{ width: '82px', height: '24px' }}
                     >
                         {buttonText}
-                    </button>
+                    </Link>
                 </div>
 
                 {/* Footer Overlay (The translucent green area at the bottom) */}
                 <div className="h-[34px] absolute bottom-0 left-0 w-full bg-[var(--overlay-white)]  flex items-center px-4 z-30 rounded-[10px]">
-                    <p className="text-[var(--bg-navy-primary)] text-[8px] leading-[1.1] font-inter font-bold line-clamp-2 w-[70%]">
+                    <p className="text-white text-[8px] leading-[1.1] font-inter font-bold line-clamp-2 w-[70%]">
                         {footerText || ""}
                     </p>
                 </div>

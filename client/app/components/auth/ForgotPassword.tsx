@@ -3,6 +3,8 @@
 import React, { useState } from "react";
 import { KeyRound, X, Loader2, ArrowLeft, Mail, CheckCircle2 } from "lucide-react";
 import { authService } from "../../services/authService";
+import Image from "next/image";
+import logo from "@/public/images/logo-2.png";
 
 interface ForgotPasswordProps {
     onClose: () => void;
@@ -73,14 +75,13 @@ export default function ForgotPassword({ onClose, onBackToLogin }: ForgotPasswor
                 </div>
 
                 {/* Brand Section */}
-                <div className="bg-[var(--bg-green-primary)] py-5 px-8 flex items-center justify-between border-b border-[var(--border-light)]">
-                    <div className="flex flex-col select-none">
-                        <h1 className="text-[var(--text-primary)] font-serif italic text-2xl font-bold leading-none -mb-1">
-                            STIRLING
-                        </h1>
-                        <span className="text-[var(--text-primary)] font-sans text-[22px] font-black tracking-[-1px] uppercase -mt-0.5">
-                            PICKS
-                        </span>
+                <div className="bg-[var(--bg-green-primary)] py-2 sm:py-3 px-6 sm:px-8 flex items-center justify-between border-b border-[var(--border-light)]">
+                    <div className="flex items-center select-none">
+                        <Image
+                            src={logo}
+                            alt="Stirling Picks"
+                            className="w-[30px] h-[30px] sm:w-[40px] sm:h-[40px] object-contain bg-white rounded-full"
+                        />
                     </div>
                 </div>
 

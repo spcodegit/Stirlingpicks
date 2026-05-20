@@ -70,12 +70,18 @@ export default function SportsPage() {
             try {
                 // Get sport name from slug
                 const slug = Array.isArray(params.slug) ? params.slug.join('/') : params.slug || '';
-                const formattedSportName = slug
+                let formattedSportName = slug
                     .split('-')
                     .map(word => word.charAt(0).toUpperCase() + word.slice(1))
                     .join(' ');
 
-                setSportName(formattedSportName);
+                // Map 'Live' or 'Football' to 'Soccer' to match API database group names
+                const isLive = formattedSportName.toLowerCase() === 'live';
+                if (isLive || formattedSportName === 'Football') {
+                    formattedSportName = 'Soccer';
+                }
+
+                setSportName(isLive ? 'Live Football' : formattedSportName);
 
                 const response = await betService.getOddsBySport(formattedSportName, oddsFormat);
 
