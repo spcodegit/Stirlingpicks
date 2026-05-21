@@ -58,5 +58,9 @@ export const API_ROUTES = {
     PLAN_LOGS: {
         ALL: '/plan-logs/all',
     },
+    CURRENCY: {
+        FRANKFURTER_LATEST: 'https://api.frankfurter.app/latest',
+        FALLBACK_LATEST: 'https://latest.currency-api.pages.dev/v1/currencies/usd.json',
+    },
 };
 

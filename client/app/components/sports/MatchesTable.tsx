@@ -1,7 +1,8 @@
 'use client';
-import React from 'react';
-import { Ticket } from 'lucide-react';
+import React, { useRef, useState, useEffect } from 'react';
+import { Ticket, ChevronLeft, ChevronRight, ChevronDown } from 'lucide-react';
 import { useBet } from '../../context/BetContext';
+import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 
 export interface Match {
     id: string;
@@ -25,14 +26,60 @@ interface MatchesTableProps {
 
 export default function MatchesTable({ leaguesData = {}, oddsFormat, onOddsFormatChange }: MatchesTableProps) {
     const { openBetSlip } = useBet();
-    const leagueNames = Object.keys(leaguesData || {});
-    const [activeLeague, setActiveLeague] = React.useState(leagueNames[0] || '');
+    const searchParams = useSearchParams();
+    const router = useRouter();
+    const pathname = usePathname();
 
-    React.useEffect(() => {
-        if (leagueNames.length > 0 && (!activeLeague || !leaguesData[activeLeague])) {
-            setActiveLeague(leagueNames[0]);
+    const scrollContainerRef = useRef<HTMLDivElement>(null);
+    const [showLeftArrow, setShowLeftArrow] = useState(false);
+    const [showRightArrow, setShowRightArrow] = useState(false);
+
+    const leagueNames = Object.keys(leaguesData || {});
+
+    const checkScroll = () => {
+        if (scrollContainerRef.current) {
+            const { scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current;
+            setShowLeftArrow(scrollLeft > 1);
+            setShowRightArrow(scrollLeft + clientWidth < scrollWidth - 1);
         }
-    }, [leaguesData, leagueNames, activeLeague]);
+    };
+
+    useEffect(() => {
+        checkScroll();
+        window.addEventListener('resize', checkScroll);
+        return () => window.removeEventListener('resize', checkScroll);
+    }, [leagueNames]);
+
+    useEffect(() => {
+        const timer = setTimeout(checkScroll, 200);
+        return () => clearTimeout(timer);
+    }, [leagueNames]);
+
+    const handleScrollLeft = () => {
+        if (scrollContainerRef.current) {
+            scrollContainerRef.current.scrollBy({ left: -200, behavior: 'smooth' });
+        }
+    };
+
+    const handleScrollRight = () => {
+        if (scrollContainerRef.current) {
+            scrollContainerRef.current.scrollBy({ left: 200, behavior: 'smooth' });
+        }
+    };
+
+    const leagueParam = searchParams.get('league');
+
+    // The active league is determined by the URL query parameter if valid, otherwise falls back to the first available league
+    const activeLeague = (leagueParam && leaguesData[leagueParam]) ? leagueParam : (leagueNames[0] || '');
+
+    const handleLeagueChange = (league: string) => {
+        const current = new URLSearchParams(Array.from(searchParams.entries()));
+        current.set('league', league);
+        const search = current.toString();
+        const query = search ? `?${search}` : '';
+        router.push(`${pathname}${query}`);
+    };
+
 
     const activeMatches = (activeLeague && leaguesData[activeLeague]) ? leaguesData[activeLeague] : [];
 
@@ -54,7 +101,7 @@ export default function MatchesTable({ leaguesData = {}, oddsFormat, onOddsForma
                             {leagueNames.map((league) => (
                                 <button
                                     key={league}
-                                    onClick={() => setActiveLeague(league)}
+                                    onClick={() => handleLeagueChange(league)}
                                     className={`font-orbitron font-bold text-[10px] uppercase tracking-wider transition-all whitespace-nowrap pb-1
                                         ${activeLeague === league
                                             ? 'text-[var(--bg-yellow-primary)] border-b-2 border-[var(--bg-yellow-primary)]'
@@ -87,21 +134,47 @@ export default function MatchesTable({ leaguesData = {}, oddsFormat, onOddsForma
             </div>
 
             <div className="hidden sm:block bg-[var(--bg-green-primary)]">
-                {/* Leagues Navigation - Top Full Width */}
-                <div className="w-[1320px] py-3 px-5 border-b border-black/5 flex items-center gap-6 overflow-x-auto no-scrollbar">
-                    {leagueNames.map((league) => (
-                        <button
-                            key={league}
-                            onClick={() => setActiveLeague(league)}
-                            className={`font-orbitron font-bold text-[11px] uppercase tracking-wider transition-all whitespace-nowrap
-                                ${activeLeague === league
-                                    ? 'text-[var(--text-black)] border-b-2 border-black pb-0.5'
-                                    : 'text-[var(--text-black)]/40 hover:text-[var(--text-black)]'
-                                }`}
+                <div className="relative group/nav">
+                    {/* Left Scroll Arrow */}
+                    {showLeftArrow && (
+                        <div
+                            onClick={handleScrollLeft}
+                            className="absolute left-2 top-1/2 -translate-y-1/2 z-30 w-8 h-8 rounded-full bg-black/10 hover:bg-black/20 backdrop-blur-md text-[var(--text-black)] shadow-sm flex items-center justify-center transition-all cursor-pointer border border-black/5"
                         >
-                            {league}
-                        </button>
-                    ))}
+                            <ChevronLeft size={18} strokeWidth={3} />
+                        </div>
+                    )}
+
+                    {/* Right Scroll Arrow */}
+                    {showRightArrow && (
+                        <div
+                            onClick={handleScrollRight}
+                            className="absolute right-2 top-1/2 -translate-y-1/2 z-30 w-8 h-8 rounded-full bg-black/10 hover:bg-black/20 backdrop-blur-md text-[var(--text-black)] shadow-sm flex items-center justify-center transition-all cursor-pointer border border-black/5"
+                        >
+                            <ChevronRight size={18} strokeWidth={3} />
+                        </div>
+                    )}
+
+                    {/* Leagues Navigation - Top Full Width */}
+                    <div 
+                        ref={scrollContainerRef}
+                        onScroll={checkScroll}
+                        className="w-full py-3 px-10 border-b border-black/5 flex items-center gap-6 overflow-x-auto no-scrollbar scroll-smooth relative"
+                    >
+                        {leagueNames.map((league) => (
+                            <button
+                                key={league}
+                                onClick={() => handleLeagueChange(league)}
+                                className={`font-orbitron font-bold text-[11px] uppercase tracking-wider transition-all whitespace-nowrap
+                                    ${activeLeague === league
+                                        ? 'text-[var(--text-black)] border-b-2 border-black pb-0.5'
+                                        : 'text-[var(--text-black)]/40 hover:text-[var(--text-black)]'
+                                    }`}
+                            >
+                                {league}
+                            </button>
+                        ))}
+                    </div>
                 </div>
 
                 {/* Headers Grid - Column Labels & Options */}
@@ -131,7 +204,7 @@ export default function MatchesTable({ leaguesData = {}, oddsFormat, onOddsForma
                 </div>
             </div>
 
-            <div className="bg-[var(--bg-primary)] sm:bg-transparent">
+            <div className="bg-[var(--bg-primary)] sm:bg-transparent max-h-[calc(100vh-220px)] overflow-y-auto custom-scrollbar pr-1">
                 {activeMatches.map((match) => (
                     <div key={match.id}>
                         {/* Mobile Card View */}

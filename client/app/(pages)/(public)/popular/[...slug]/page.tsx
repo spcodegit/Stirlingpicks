@@ -67,9 +67,13 @@ export default function PopularPage() {
             setLoading(true);
             try {
                 const slug = Array.isArray(params.slug) ? params.slug.join('/') : params.slug || '';
-                const sportName = slug
+                let sportName = slug
                     ? slug.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')
                     : 'Soccer';
+
+                if (sportName === 'Football') {
+                    sportName = 'Soccer';
+                }
 
                 const response = await betService.getOddsBySport(sportName, oddsFormat);
 
