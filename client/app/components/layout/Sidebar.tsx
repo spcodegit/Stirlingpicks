@@ -401,7 +401,7 @@ function SidebarContent() {
                                                     <IconComponent size={16} className="text-[var(--text-black)]" />
                                                 </div>
                                                 <span className="text-[var(--text-black)] truncate font-inter font-semibold text-[12px] leading-[100%]">
-                                                    {sport}
+                                                    {sport === 'Soccer' ? 'Football' : sport}
                                                 </span>
                                             </div>
 
