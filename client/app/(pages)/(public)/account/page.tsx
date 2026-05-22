@@ -17,7 +17,7 @@ const ACCOUNT_DATA = {
   },
   professional: {
     heading: "Pro Level Betting Experience",
-    description: "Unlock advanced tools, higher limits, and exclusive market insights with our professional account tier.",
+    description: "Unlock advanced tools, higher limits, and exclusive betting insights with our professional account tier.",
     buttonText: "Go Pro",
   },
 };
