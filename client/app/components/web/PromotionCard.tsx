@@ -21,15 +21,15 @@ export default function PromotionCard({
 }: PromotionCardProps) {
     return (
         <div
-            className="relative w-[296px] h-[155px]"
+            className="relative w-full h-[200px]"
         >
             {/* Background Graphic (dil/shape) */}
             <div
-                className="absolute top-[-15px] right-[0px] pointer-events-none w-[170px] h-[185px] rounded-[30px] opacity-[0.37] rotate-180 scale-x-[-1] bg-[var(--bg-gray-shape)]"
+                className="absolute top-[-20px] right-[0px] pointer-events-none w-[180px] h-[240px] rounded-[30px] opacity-[0.37] rotate-180 scale-x-[-1] bg-[var(--bg-gray-shape)]"
             ></div>
             <div className="relative flex flex-col bg-[var(--bg-green-card)] rounded-[10px]  shadow-lg group h-[100%] w-[100%] overflow-hidden">
                 {/* Athlete Image - Centered/Right aligned */}
-                <div className="absolute right-0 bottom-0 h-[100%] w-[150px] z-10 select-none pointer-events-none group-hover:scale-105 transition-transform duration-500 origin-bottom">
+                <div className="absolute right-0 bottom-0 h-[100%] w-[42%] z-10 select-none pointer-events-none group-hover:scale-105 transition-transform duration-500 origin-bottom">
                     <Image
                         src={imageSrc}
                         alt=""
@@ -41,7 +41,7 @@ export default function PromotionCard({
 
                 {/* Content Layer (Top-Left) */}
                 <div className="relative z-20 flex flex-col h-full p-5 justify-start">
-                    <div className="max-w-[170px]">
+                    <div className="max-w-[58%]">
                         <h2 className="font-inter font-black text-[20px] leading-[100%] text-[var(--text-primary)] drop-shadow-md uppercase mb-1">
                             {title}
                         </h2>
@@ -52,7 +52,7 @@ export default function PromotionCard({
 
                     <Link
                         href="/sports/live"
-                        className="font-raleway font-bold text-[10px] text-[var(--text-black)] bg-[var(--bg-yellow-primary)] rounded-[10px] border border-[var(--border-white)] transition-all uppercase flex items-center justify-center cursor-pointer shadow-md mt-auto mb-8"
+                        className="font-raleway font-bold text-[10px] text-[var(--text-black)] bg-[var(--bg-yellow-primary)] rounded-[10px] border border-[var(--border-white)] transition-all uppercase flex items-center justify-center cursor-pointer shadow-md mt-auto mb-12"
                         style={{ width: '82px', height: '24px' }}
                     >
                         {buttonText}
@@ -60,8 +60,8 @@ export default function PromotionCard({
                 </div>
 
                 {/* Footer Overlay (The translucent green area at the bottom) */}
-                <div className="h-[34px] absolute bottom-0 left-0 w-full bg-[var(--overlay-white)]  flex items-center px-4 z-30 rounded-[10px]">
-                    <p className="text-white text-[8px] leading-[1.1] font-inter font-bold line-clamp-2 w-[70%]">
+                <div className="min-h-[34px] h-auto absolute bottom-0 left-0 w-full bg-[var(--overlay-white)]  flex items-center px-4 py-1.5 z-30 rounded-[10px]">
+                    <p className="text-white text-[11px] leading-[1.1] font-inter font-normal w-full">
                         {footerText || ""}
                     </p>
                 </div>

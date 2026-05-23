@@ -4,8 +4,11 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { PublicLayout } from './components/layout';
 import HowItWorks from './components/web/HowItWorks';
+import { useAuth } from './context/AuthContext';
 
 export default function Home() {
+    const { openSignupModal } = useAuth();
+
     return (
         <>
             <PublicLayout>
@@ -36,7 +39,7 @@ export default function Home() {
                         {/* Button at bottom center over image */}
                         <div className="absolute left-1/2 bottom-3 md:bottom-6 -translate-x-1/2 z-10">
                             <Link
-                                href="/"
+                                href="/sports/live"
                                 className="w-[100px] md:w-[115px] h-[30px] md:h-[35px] flex items-center justify-center bg-[#DBFF4D] text-black font-orbitron font-bold text-[14px] md:text-[16px] rounded-[8px] md:rounded-[10px] hover:bg-[#e6f53d] transition-colors duration-200 shadow-lg"
                             >
                                 Start Now
@@ -56,7 +59,7 @@ export default function Home() {
                                     alt="Bet Booster"
                                     fill
                                     className="object-cover"
-                                />
+                                    />
                                 <div className="absolute inset-0 bg-gradient-to-l from-black/80 via-black/40 to-transparent flex flex-col items-end justify-center pr-6 md:pr-10">
                                     <h3
                                         className="text-white font-orbitron font-bold text-[18px] sm:text-2xl leading-tight tracking-[1px] text-right"
@@ -64,7 +67,7 @@ export default function Home() {
                                         Bet<br />Booster
                                     </h3>
                                     <Link
-                                        href="/bet-booster"
+                                        href="/sports/live"
                                         className="inline-block mt-3 px-4 md:px-6 py-1.5 md:py-2 bg-[#DBFF4D] text-black font-orbitron font-bold text-xs md:text-sm rounded-[8px] md:rounded-[10px] hover:bg-[#e6f53d] transition-colors"
                                     >
                                         View Now
@@ -75,7 +78,8 @@ export default function Home() {
 
                         {/* Create Account Card */}
                         <div
-                            className="relative rounded-[15px] overflow-hidden flex-1 flex items-center p-[10px] md:p-[12px] w-full max-w-[570px] min-h-[162px] bg-[#479466] mx-auto lg:mx-0"
+                            onClick={openSignupModal}
+                            className="relative rounded-[15px] overflow-hidden flex-1 flex items-center p-[10px] md:p-[12px] w-full max-w-[570px] min-h-[162px] bg-[#479466] mx-auto lg:mx-0 cursor-pointer"
                         >
                             <div className="w-full h-full min-h-[142px] flex items-center gap-3 md:gap-5 bg-white/10 backdrop-blur-md p-4 md:p-6 rounded-[10px] border border-white/5">
                                 <div className="w-[60px] h-[60px] md:w-[90px] md:h-[90px] rounded-full bg-[#1E1A2A] flex items-center justify-center flex-shrink-0 shadow-[0_4px_10px_rgba(0,0,0,0.3)] relative overflow-hidden ring-2 md:ring-4 ring-black/10">

@@ -3,6 +3,7 @@ import { Geist, Geist_Mono, Inter, Orbitron, Krona_One, Raleway } from "next/fon
 import "./globals.css";
 import { AuthProvider } from "./context/AuthContext";
 import { BetProvider } from "./context/BetContext";
+import { CurrencyProvider } from "./context/CurrencyContext";
 import AuthModal from "./components/auth/AuthModal";
 import VerifyEmailHandler from "./components/auth/VerifyEmailHandler";
 import BetSlip from "./components/sports/BetSlip";
@@ -61,13 +62,15 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <AuthProvider>
-          <BetProvider>
-            {children}
-            <VerifyEmailHandler />
-            <AuthModal />
-            <BetSlip />
-            <DepositModal />
-          </BetProvider>
+          <CurrencyProvider>
+            <BetProvider>
+              {children}
+              <VerifyEmailHandler />
+              <AuthModal />
+              <BetSlip />
+              <DepositModal />
+            </BetProvider>
+          </CurrencyProvider>
         </AuthProvider>
       </body>
     </html>

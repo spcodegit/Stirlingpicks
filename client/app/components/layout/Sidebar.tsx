@@ -78,7 +78,7 @@ const getSportIcon = (sportName: string) => {
 // Helper to determine active sport from URL pathname
 const getActiveSportFromPath = (pathname: string) => {
     if (!pathname) return null;
-    
+
     if (pathname.startsWith('/sports/')) {
         const slug = pathname.split('/')[2];
         if (slug === 'live') return null;
@@ -87,21 +87,21 @@ const getActiveSportFromPath = (pathname: string) => {
         if (mapped === 'Football') return 'Soccer';
         return mapped;
     }
-    
+
     if (pathname.startsWith('/popular/')) {
         const slug = pathname.split('/')[2];
         const mapped = slug.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
         if (mapped === 'Football') return 'Soccer';
         return mapped;
     }
-    
+
     return null;
 };
 
 // Helper to determine unique expand key from pathname
 const getActiveExpandKeyFromPath = (pathname: string) => {
     if (!pathname) return null;
-    
+
     if (pathname.startsWith('/sports/')) {
         const slug = pathname.split('/')[2];
         if (slug === 'live' || slug === 'search') return null;
@@ -109,13 +109,13 @@ const getActiveExpandKeyFromPath = (pathname: string) => {
         const sportName = mapped === 'Football' ? 'Soccer' : mapped;
         return `az-${sportName}`;
     }
-    
+
     if (pathname.startsWith('/popular/')) {
         const slug = pathname.split('/')[2]; // e.g. 'football' or 'soccer'
         const popularSlug = slug === 'soccer' ? 'football' : slug;
         return `pop-${popularSlug}`;
     }
-    
+
     return null;
 };
 
@@ -134,7 +134,7 @@ function SidebarContent() {
     const [apiSports, setApiSports] = useState<string[]>([]);
     const [loading, setLoading] = useState(true);
     const [mounted, setMounted] = useState(false);
-    
+
     const [isSearching, setIsSearching] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
     const [expandedSports, setExpandedSports] = useState<Record<string, boolean>>({});
@@ -172,7 +172,7 @@ function SidebarContent() {
     useEffect(() => {
         const expandKey = getActiveExpandKeyFromPath(pathname);
         if (!expandKey) return;
-        
+
         setExpandedSports({
             [expandKey]: true
         });
@@ -195,7 +195,7 @@ function SidebarContent() {
                 console.error(`Failed to fetch leagues for ${sportName}:`, error);
             }
         };
-        
+
         checkAndFetch();
     }, [pathname, activeSport]);
 
@@ -222,9 +222,11 @@ function SidebarContent() {
         }
     };
 
-    const filteredSports = apiSports.filter(sport =>
-        sport.toLowerCase().includes(searchQuery.toLowerCase())
-    );
+    const filteredSports = apiSports.filter(sport => {
+        const query = searchQuery.toLowerCase();
+        const displayName = sport === 'Soccer' ? 'football' : sport.toLowerCase();
+        return displayName.includes(query) || sport.toLowerCase().includes(query);
+    });
 
     return (
         <aside
@@ -355,16 +357,16 @@ function SidebarContent() {
                                                     leaguesBySport[linkSportName].map((league) => {
                                                         const isActiveLeague = activeLeague === league;
                                                         const sportSlug = linkSportName.toLowerCase().replace(/\s+/g, '-');
-                                                        const targetPath = pathname.startsWith('/popular/') 
-                                                            ? link.href 
+                                                        const targetPath = pathname.startsWith('/popular/')
+                                                            ? link.href
                                                             : `/sports/${sportSlug}`;
                                                         return (
                                                             <Link
                                                                 key={league}
                                                                 href={`${targetPath}?league=${encodeURIComponent(league)}`}
                                                                 className={`w-[140px] ml-2 h-[26px] flex items-center px-2 rounded font-inter text-[10px] font-bold uppercase transition-colors duration-200
-                                                                    ${isActiveLeague 
-                                                                        ? 'bg-[var(--bg-yellow-primary)] text-[var(--text-black)]' 
+                                                                    ${isActiveLeague
+                                                                        ? 'bg-[var(--bg-yellow-primary)] text-[var(--text-black)]'
                                                                         : 'text-white/85 hover:text-white hover:bg-white/10'
                                                                     }`}
                                                             >
@@ -381,6 +383,14 @@ function SidebarContent() {
                         </nav>
                     </div>
                 ))}
+
+                {mounted && !loading && searchQuery.trim() !== '' && filteredSports.length === 0 && (
+                    <div className="mb-4 -mt-3">
+                        <p className="text-white/60 font-inter text-[11px] px-2 py-2">
+                            No results found for &quot;{searchQuery}&quot;
+                        </p>
+                    </div>
+                )}
 
                 {mounted && !loading && filteredSports.length > 0 && (
                     <div className="mb-4 -mt-3">
@@ -431,8 +441,8 @@ function SidebarContent() {
                                                                 key={league}
                                                                 href={`/sports/${sportSlug}?league=${encodeURIComponent(league)}`}
                                                                 className={`w-[140px] ml-2 h-[26px] flex items-center px-2 rounded font-inter text-[10px] font-bold uppercase transition-colors duration-200
-                                                                    ${isActiveLeague 
-                                                                        ? 'bg-[var(--bg-yellow-primary)] text-[var(--text-black)]' 
+                                                                    ${isActiveLeague
+                                                                        ? 'bg-[var(--bg-yellow-primary)] text-[var(--text-black)]'
                                                                         : 'text-white/85 hover:text-white hover:bg-white/10'
                                                                     }`}
                                                             >

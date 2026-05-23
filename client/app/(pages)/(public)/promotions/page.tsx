@@ -19,7 +19,7 @@ const PROMOTIONS_DATA = [
     subtitle: "Redeem Today",
     buttonText: "SEE MORE",
     imageSrc: "/images/promotions/2.png",
-    footerText: "As a Official Global Partner with Many Renowned Sports Firms We Distribute Tickets To Matches On a Regular Occasion Throughout The Season. Restrictions and T&Cs apply."
+    footerText: "As a Official Global Partner with Many Renowned Sports Firms We distribute Tickets to Matches On a Regular Occasion Throughout The Season. Restrictions + T&Cs apply."
   },
   {
     id: 3,
@@ -27,15 +27,15 @@ const PROMOTIONS_DATA = [
     subtitle: "Stack Your Stirling Points",
     buttonText: "SEE MORE",
     imageSrc: "/images/promotions/3.png",
-    footerText: "Open PRO Account, 1 spin per customer /day. Rewards on Wheel: Cash, Points, Bonus, Free Spins, Free Bet, Free Bingo Ticket. Rewards valid 7 days (exc. cash). Guaranteed reward on Supercharged Days. Reward restrictions and T&Cs apply."
+    footerText: "1 spin per customer per day. Rewards available: Cash, Casino Bonus, Free Spins, Free Bet, Free Bingo Ticket. Valid 7 days (except cash). Reward restrictions and T&Cs apply."
   },
   {
     id: 4,
-    title: <><span className="block text-[var(--text-primary)] text-[14px]">Get <span className="text-[var(--text-yellow)]">Phenomenal</span></span><span className="text-[var(--text-primary)] text-[14px]">Sports Odds</span></>,
+    title: <><span className="block text-[var(--text-primary)]">Get <span className="text-[var(--text-yellow)]">Phenomenal</span></span><span className="text-[var(--text-primary)]">Sports Odds</span></>,
     subtitle: "On Demand Picks",
     buttonText: "SEE MORE",
     imageSrc: "/images/promotions/4.png",
-    footerText: "Certain deposit methods & bet types excl. Min first £/€5 bet within 14 days of account reg at min odds 1/2 to get 4x £/€5 free bets. Free bets available to use on selected sportsbook markets only. Free bets valid for 7 days, stake not returned. Restrictions + T&Cs apply."
+    footerText: "Certain deposit methods & bet types excl. Min first £/€5 bet within 14 days of account reg at min odds 1/2 to get 4x €/€5 free bets. Restrictions + T&Cs apply."
   },
   {
     id: 5,
@@ -52,8 +52,8 @@ export default function PromotionsPage() {
     <div className="w-full h-full bg-[var(--bg-primary)] flex flex-col overflow-hidden">
       <PageTitleBar title="Promotions" />
 
-      <div className="py-16 px-6 flex-1 flex flex-col overflow-y-auto no-scrollbar">
-        <div className="flex flex-wrap gap-8 space-y-8 ">
+      <div className="pt-10 pb-16 px-8 md:px-12 flex-1 flex flex-col overflow-y-auto no-scrollbar w-full">
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-x-8 gap-y-20">
           {PROMOTIONS_DATA.map((promo) => (
             <PromotionCard
               key={promo.id}

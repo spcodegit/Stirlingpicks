@@ -1,4 +1,5 @@
 import PageTitleBar from "@/app/components/web/PageTitleBar";
+import Link from "next/link";
 
 export default function HowItWorksPage() {
   return (
@@ -13,9 +14,9 @@ export default function HowItWorksPage() {
           <p className="max-w-[363px] font-inter text-[var(--text-secondary)] text-[10px] md:text-[12px] lg:text-[12px] max-w-2xl leading-relaxed mb-4 md:mb-6 line-clamp-2 md:line-clamp-none">
             Experience betting in a standard account. Fund your account today and get access to instant Odd feeds.
           </p>
-          <button className="w-[99px] h-[24px] flex items-center justify-center bg-[var(--bg-yellow-primary)] hover:bg-[var(--bg-yellow-hover)] text-[var(--text-black)] font-orbitron font-bold text-[11px] rounded-[10px] border border-black/10 transition-all duration-200">
+          <Link href="/account" className="w-[99px] h-[24px] flex items-center justify-center bg-[var(--bg-yellow-primary)] hover:bg-[var(--bg-yellow-hover)] text-[var(--text-black)] font-orbitron font-bold text-[11px] rounded-[10px] border border-black/10 transition-all duration-200">
             View Now
-          </button>
+          </Link>
         </div>
 
         {/* Professional Section */}
@@ -25,9 +26,9 @@ export default function HowItWorksPage() {
           <p className="max-w-[520px] font-inter text-[var(--text-secondary)] text-[10px] md:text-[12px] lg:text-[12px] max-w-2xl leading-relaxed mb-4 md:mb-6 line-clamp-3 md:line-clamp-none">
             Up for the challenge! Experience Betting in our very own tailored professional accounts. We Fund professional accounts up to $100,000 based on Betting performance. Amplify your earnings today.
           </p>
-          <button className="w-[99px] h-[24px] flex items-center justify-center bg-[var(--bg-yellow-primary)] hover:bg-[var(--bg-yellow-hover)] text-[var(--text-black)] font-orbitron font-bold text-[11px] rounded-[10px] border border-black/10 transition-all duration-200">
+          <Link href="/account" className="w-[99px] h-[24px] flex items-center justify-center bg-[var(--bg-yellow-primary)] hover:bg-[var(--bg-yellow-hover)] text-[var(--text-black)] font-orbitron font-bold text-[11px] rounded-[10px] border border-black/10 transition-all duration-200">
             View Now
-          </button>
+          </Link>
         </div>
       </div>
     </div>

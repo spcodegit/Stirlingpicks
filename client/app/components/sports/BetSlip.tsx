@@ -1,16 +1,20 @@
 'use client';
 import React, { useState } from 'react';
-import { X, ChevronDown, Settings, ListFilter, Wallet, AlertCircle, FileText, TrendingUp } from 'lucide-react';
+import { X, ChevronDown, ListFilter, AlertCircle, FileText } from 'lucide-react';
 import { useBet } from '../../context/BetContext';
 import { useAuth } from '../../context/AuthContext';
+import { useCurrency } from '../../context/CurrencyContext';
 import { usePathname, useRouter } from 'next/navigation';
 import { authService, betService } from '@/app/services';
 
 export default function BetSlip() {
     const { selectedBet, isBetSlipOpen, closeBetSlip, removeBet } = useBet();
     const { user, openLoginModal, login } = useAuth();
+    const { selectedCurrency, conversionRate, isConverting } = useCurrency();
     const router = useRouter();
     const pathname = usePathname();
+
+    const CurrencyIcon = selectedCurrency.icon;
 
     const [stake, setStake] = useState<string>('');
     const [error, setError] = useState<string>('');
@@ -130,8 +134,8 @@ export default function BetSlip() {
         const axiosError = err as { response: { data: { message?: string | { user?: string } } } };
         const message = axiosError.response?.data?.message;
 
-        errorMessage = typeof message === 'object' 
-            ? (message.user || errorMessage) 
+        errorMessage = typeof message === 'object'
+            ? (message.user || errorMessage)
             : (message || errorMessage);
     }
 
@@ -245,11 +249,11 @@ export default function BetSlip() {
                             <div className="mt-3 bg-[var(--bg-navy-secondary)]/5 border border-[var(--border-light)] rounded-sm px-4 py-2.5">
                                 <div className="flex items-center justify-between">
                                     <div className="flex items-center gap-1.5">
-                                        <TrendingUp size={14} className="text-green-600" />
+                                        <CurrencyIcon size={14} className="text-green-600" />
                                         <span className="text-[var(--text-dark-secondary)] text-[11px] font-medium uppercase tracking-wider">Potential Win</span>
                                     </div>
                                     <span className="text-green-600 font-bold text-[15px] font-inter">
-                                        £{(parseFloat(stake) * getPlacedBetValue(selectedBet.odds)).toFixed(2)}
+                                        {selectedCurrency.symbol}{(parseFloat(stake) * getPlacedBetValue(selectedBet.odds) * conversionRate).toFixed(2)}
                                     </span>
                                 </div>
                             </div>
@@ -302,13 +306,6 @@ export default function BetSlip() {
                 </button>
             </div>
 
-            {/* Wallet Info if logged in */}
-            {user && (
-                <div className="bg-[var(--bg-navy-secondary)] px-4 py-1.5 flex items-center justify-center gap-2 border-t border-[var(--border-white)]/5">
-                    <Wallet size={12} className="text-[var(--bg-green-primary)]" />
-                    <span className="text-[var(--bg-green-primary)]/80 text-[10px] font-bold tracking-wider uppercase">BALANCE: £{user.balance.toFixed(2)}</span>
-                </div>
-            )}
         </div>
     );
 }
