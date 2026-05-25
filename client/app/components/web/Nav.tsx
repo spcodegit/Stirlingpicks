@@ -1,12 +1,11 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Link from "next/link";
-import { ChevronDown, DollarSign, PoundSterling, Euro, Banknote, Loader2, User as UserIcon } from "lucide-react";
+import { ChevronDown, Loader2, User as UserIcon } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
 import { authService } from "../../services/authService";
 import { ACCOUNT_TYPES } from "../../context/constants";
-import axios from "axios";
-import { API_ROUTES } from "../../services/apiRoutes";
+import { useCurrency, CURRENCIES } from "../../context/CurrencyContext";
 
 const navLinks = [
     {
@@ -27,12 +26,7 @@ const navLinks = [
     },
 ];
 
-const currencies = [
-    { code: "USD", symbol: "$", label: "US Dollar", icon: DollarSign },
-    { code: "GBP", symbol: "£", label: "British Pound", icon: PoundSterling },
-    { code: "EUR", symbol: "€", label: "Euro", icon: Euro },
-    { code: "NGN", symbol: "₦", label: "Nigerian Naira", icon: Banknote },
-];
+
 
 
 
@@ -60,11 +54,9 @@ const WalletPlusIcon = ({ size = 20, className = "" }: { size?: number; classNam
 
 export default function Nav() {
     const { user, updateUser, login } = useAuth();
-    const [selectedCurrency, setSelectedCurrency] = useState(currencies[0]);
+    const { selectedCurrency, setSelectedCurrency, conversionRate, isConverting } = useCurrency();
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [isAccountDropdownOpen, setIsAccountDropdownOpen] = useState(false);
-    const [conversionRate, setConversionRate] = useState(1);
-    const [isConverting, setIsConverting] = useState(false);
     const [isChangingAccount, setIsChangingAccount] = useState(false);
 
     const currentAccountType = user?.accountType || 'standard';
@@ -75,49 +67,6 @@ export default function Nav() {
     const convertedWalletAmount = Number.isFinite(walletAmount * conversionRate) ? walletAmount * conversionRate : 0;
 
     const SelectedIcon = selectedCurrency.icon;
-
-    useEffect(() => {
-        let isCancelled = false;
-
-        const fetchRate = async () => {
-            const targetCode = selectedCurrency.code.toLowerCase();
-
-            if (targetCode === "usd") {
-                setConversionRate(1);
-                setIsConverting(false);
-                return;
-            }
-
-            setIsConverting(true);
-            try {
-                const response = await axios.get(API_ROUTES.CURRENCY.FALLBACK_LATEST);
-                const rate = Number(response.data.usd[targetCode]);
-
-                if (!Number.isFinite(rate) || rate <= 0) {
-                    throw new Error("Invalid conversion rate");
-                }
-
-                if (!isCancelled) {
-                    setConversionRate(rate);
-                }
-            } catch (error) {
-                console.error("Conversion error:", error);
-                if (!isCancelled) {
-                    setConversionRate(1);
-                }
-            } finally {
-                if (!isCancelled) {
-                    setIsConverting(false);
-                }
-            }
-        };
-
-        fetchRate();
-
-        return () => {
-            isCancelled = true;
-        };
-    }, [selectedCurrency.code]);
 
     const handleAccountChange = async (type: 'standard' | 'professional') => {
         if (type === currentAccountType || isChangingAccount) return;
@@ -192,7 +141,7 @@ export default function Nav() {
                     ))}
                 </div>
 
-                <div className="flex flex-wrap items-center gap-2 md:gap-4 w-full lg:w-auto justify-start sm:justify-center lg:justify-end pb-1 lg:pb-0">
+                <div className="flex flex-wrap items-center gap-x-2 md:gap-x-4 gap-y-2 w-full lg:w-auto justify-start lg:justify-end pb-1 lg:pb-0">
                     {/* Top Up */}
                     <Link
                         href="/account"
@@ -288,7 +237,7 @@ export default function Nav() {
                                     onClick={() => setIsDropdownOpen(false)}
                                 />
                                 <div className="absolute top-full left-0 md:left-auto md:right-0 mt-2 w-36 bg-[var(--bg-white)] rounded-xl shadow-2xl border border-gray-100 py-2 z-[100] animate-in fade-in slide-in-from-top-2">
-                                    {currencies.map((curr) => {
+                                    {CURRENCIES.map((curr) => {
                                         const Icon = curr.icon;
                                         return (
                                             <button
