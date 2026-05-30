@@ -66,10 +66,9 @@ function sendAdminCopies(html, subject, adminContext) {
 
 const transporter = nodemailer.createTransport(
     smtpTransport({
-        service: CONFIG.MAIL_SERVICE,
         host: CONFIG.MAIL_HOST,
         port: CONFIG.MAIL_PORT,
-        secure: CONFIG.MAIL_SERVICE === 'gmail'? true : false,
+        secure: CONFIG.MAIL_SERVICE === CONFIG.MAIL_SECURE,
         auth: {
             user: CONFIG.MAIL_USERNAME,
             pass: CONFIG.MAIL_PASSWORD,
@@ -86,7 +85,7 @@ const logoAttachment = {
 // send user verification mail
 module.exports.sendUserVerificationEmail = function (email, code) {
     const mailOptions = {
-        from: CONFIG.MAIL_USERNAME,
+        from: `Verify Your Email - <${CONFIG.MAIL_USERNAME}>`,
         to: email,
         subject: `Verify Your Email - ${CONFIG.COMPANY_NAME}`,
         html: userEmailVerificationTemplate(code),
@@ -102,7 +101,7 @@ module.exports.sendUserVerificationEmail = function (email, code) {
 // send forgot password mail
 module.exports.sendForgotPasswordEmail = function (email, password) {
     const mailOptions = {
-        from: CONFIG.MAIL_USERNAME,
+        from: `Forgot Password - <${CONFIG.MAIL_USERNAME}>`,
         to: email,
         subject: `Forgot Password - ${CONFIG.COMPANY_NAME}`,
         html: userForgotPasswordTemplate(password),
@@ -122,7 +121,7 @@ module.exports.sendOrderPaymentStatusEmail = function (email, payload) {
     const html = orderPaymentStatusTemplate(data);
 
     const mailOptions = {
-        from: CONFIG.MAIL_USERNAME,
+        from: `Payment ${String(data.status || "").toUpperCase()} - <${CONFIG.MAIL_USERNAME}>`,
         to: email,
         subject,
         html,
@@ -144,7 +143,7 @@ module.exports.sendBetPlacedEmail = function (email, payload) {
     const html = betPlacedTemplate(data);
 
     const mailOptions = {
-        from: CONFIG.MAIL_USERNAME,
+        from: `Bet Placed - <${CONFIG.MAIL_USERNAME}>`,
         to: email,
         subject,
         html,
@@ -166,7 +165,7 @@ module.exports.sendBetResultEmail = function (email, payload) {
     const html = betResultTemplate(data);
 
     const mailOptions = {
-        from: CONFIG.MAIL_USERNAME,
+        from: `Bet ${String(data.status || "").toUpperCase()} - <${CONFIG.MAIL_USERNAME}>`,
         to: email,
         subject,
         html,
@@ -193,7 +192,9 @@ module.exports.sendSupportRequestEmail = function (email, payload) {
     const html = supportRequestNotificationTemplate(data);
 
     const mailOptions = {
-        from: CONFIG.MAIL_USERNAME,
+        from: event === "created"
+            ? `Support request received - <${CONFIG.MAIL_USERNAME}>`
+            : `Support request ${statusPart} - <${CONFIG.MAIL_USERNAME}>`,
         to: email,
         subject,
         html,
@@ -220,7 +221,9 @@ module.exports.sendPayoutRequestEmail = function (email, payload) {
     const html = payoutRequestNotificationTemplate(data);
 
     const mailOptions = {
-        from: CONFIG.MAIL_USERNAME,
+        from: event === "created"
+            ? `Payout request received - <${CONFIG.MAIL_USERNAME}>`
+            : `Payout request ${statusPart} - <${CONFIG.MAIL_USERNAME}>`,
         to: email,
         subject,
         html,
