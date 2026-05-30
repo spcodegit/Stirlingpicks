@@ -10,7 +10,6 @@ const {
     supportRequestNotificationTemplate,
     payoutRequestNotificationTemplate,
 } = require("./templates");
-const path = require("path");
 
 const escapeHtml = (value) =>
     String(value ?? "")
@@ -55,7 +54,6 @@ function sendAdminCopies(html, subject, adminContext) {
         to: recipients.join(", "),
         subject: `[Admin] ${subject}`,
         html: htmlAdmin,
-        attachments: [logoAttachment],
     };
 
     transporter.sendMail(mailOptions, (error, info) => {
@@ -76,12 +74,6 @@ const transporter = nodemailer.createTransport(
     }),
 )
 
-const logoAttachment = {
-    filename: 'logo.png',
-    path: path.join(__dirname, '../../../client/public/images/logo.png'),
-    cid: 'logo' 
-};
-
 // send user verification mail
 module.exports.sendUserVerificationEmail = function (email, code) {
     const mailOptions = {
@@ -89,7 +81,6 @@ module.exports.sendUserVerificationEmail = function (email, code) {
         to: email,
         subject: `Verify Your Email - ${CONFIG.COMPANY_NAME}`,
         html: userEmailVerificationTemplate(code),
-        attachments: [logoAttachment]
     };
 
     transporter.sendMail(mailOptions, (error, info) => {
@@ -105,7 +96,6 @@ module.exports.sendForgotPasswordEmail = function (email, password) {
         to: email,
         subject: `Forgot Password - ${CONFIG.COMPANY_NAME}`,
         html: userForgotPasswordTemplate(password),
-        attachments: [logoAttachment]
     };
 
     transporter.sendMail(mailOptions, (error, info) => {
@@ -125,7 +115,6 @@ module.exports.sendOrderPaymentStatusEmail = function (email, payload) {
         to: email,
         subject,
         html,
-        attachments: [logoAttachment],
     };
 
     transporter.sendMail(mailOptions, (error, info) => {
@@ -147,7 +136,6 @@ module.exports.sendBetPlacedEmail = function (email, payload) {
         to: email,
         subject,
         html,
-        attachments: [logoAttachment],
     };
 
     transporter.sendMail(mailOptions, (error, info) => {
@@ -169,7 +157,6 @@ module.exports.sendBetResultEmail = function (email, payload) {
         to: email,
         subject,
         html,
-        attachments: [logoAttachment],
     };
 
     transporter.sendMail(mailOptions, (error, info) => {
@@ -198,7 +185,6 @@ module.exports.sendSupportRequestEmail = function (email, payload) {
         to: email,
         subject,
         html,
-        attachments: [logoAttachment],
     };
 
     transporter.sendMail(mailOptions, (error, info) => {
@@ -227,7 +213,6 @@ module.exports.sendPayoutRequestEmail = function (email, payload) {
         to: email,
         subject,
         html,
-        attachments: [logoAttachment],
     };
 
     transporter.sendMail(mailOptions, (error, info) => {
