@@ -6,6 +6,7 @@ const payout = new mongoose.Schema(
     {
         userId: {type: mongoose.Schema.Types.ObjectId, ref: "User", required: true},
         amount: {type: Number, required: true},
+        currency: {type: String, required: true, enum: ["USD", "GBP", "EUR"], default: "USD"},
         accountType: {type: String, required: true, enum: [ACCOUNT_TYPES.STANDARD, ACCOUNT_TYPES.PROFESSIONAL]},
         type: {type: String, required: true, enum: Object.values(PAYOUT_METHODS)},
         status: {type: String, required: true, enum: Object.values(PAYOUT_STATUS), default: PAYOUT_STATUS.PLACED},

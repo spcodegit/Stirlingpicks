@@ -14,6 +14,17 @@ const formatDateTime = (isoDate: string): string => {
     return `${day} ${month} ${year}`;
 };
 
+const isTodayOrFuture = (isoDate: string): boolean => {
+    const matchDate = new Date(isoDate);
+    if (Number.isNaN(matchDate.getTime())) return false;
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    matchDate.setHours(0, 0, 0, 0);
+
+    return matchDate >= today;
+};
+
 // The API already returns odds in the correct format (fractional strings for 'fra',
 // decimal numbers for 'decimal') based on the 'output' query param sent by betService.
 const convertToMatch = (matchOdds: MatchOdds): Match | null => {
@@ -83,6 +94,7 @@ export default function PopularPage() {
                     Object.entries(response.data).forEach(([leagueName, leagueMatches]) => {
                         if (Array.isArray(leagueMatches)) {
                             const formattedMatches = leagueMatches
+                                .filter((m) => isTodayOrFuture((m as MatchOdds).commence_time))
                                 .map(m => convertToMatch(m as MatchOdds))
                                 .filter((m): m is Match => m !== null);
 

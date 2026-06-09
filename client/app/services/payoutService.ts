@@ -29,6 +29,7 @@ export interface PayoutItem {
     _id: string;
     userId: string | PayoutUser;
     amount: number;
+    currency?: 'USD' | 'GBP' | 'EUR';
     accountType: 'standard' | 'professional';
     type: 'crypto' | 'bank';
     status: 'placed' | 'pending' | 'complete' | 'rejected';
@@ -38,6 +39,7 @@ export interface PayoutItem {
 
 export interface CreatePayoutRequest {
     amount: number;
+    currency: 'USD' | 'GBP' | 'EUR';
     accountType: 'standard' | 'professional';
     type: 'crypto' | 'bank';
     payOutBank?: {

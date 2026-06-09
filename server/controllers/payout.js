@@ -17,10 +17,11 @@ const create = async (req, res) => {
     try {
 
         const {amount, accountType} = req.body
+        req.body.currency = String(req.body.currency ).toUpperCase();
 
         // const existingRequest = await Payout.findOne({userId: req?.user?._id, status: { $in: [PAYOUT_STATUS.PLACED, PAYOUT_STATUS.PENDING] }})
         // if (existingRequest) return json(res, statusCode.BAD_REQUEST, "User already has a pending or placed payout request.");
-        
+
         const user = await User.findById(req?.user?._id);
 
         // detuct from wallet and add payment request
@@ -70,7 +71,7 @@ const create = async (req, res) => {
         const data = new Payout(req?.body)
         data.userId = req?.user?._id;
         await data.save();
-        
+
         if (user?.email) {
             sendPayoutRequestEmail(user.email, {
                 name: user.name,

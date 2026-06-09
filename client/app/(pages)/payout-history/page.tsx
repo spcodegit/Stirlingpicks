@@ -4,16 +4,23 @@ import { PublicLayout } from '@/app/components/layout';
 import { ArrowUpRight, Clock, CheckCircle2, XCircle, Search, Filter, Download, ChevronDown, Loader2, Ban, Plus, X, CreditCard, DollarSign, Bitcoin, Building2, AlertCircle } from 'lucide-react';
 import { authService, payoutService, PayoutItem, CreatePayoutRequest } from '@/app/services';
 import { useAuth } from '@/app/context/AuthContext';
+import { CURRENCIES } from '@/app/context/CurrencyContext';
 
 interface UiPayout {
     rawId: string;
     id: string;
     date: string;
     amount: number;
+    currency: 'USD' | 'GBP' | 'EUR';
     accountType: string;
     type: string;
     status: string;
 }
+
+const DEFAULT_CURRENCY = CURRENCIES[0].code as 'USD' | 'GBP' | 'EUR';
+
+const getCurrencyMeta = (code?: string) =>
+    CURRENCIES.find((currency) => currency.code === code) ?? CURRENCIES[0];
 
 const formatDate = (date: string) => {
     const parsed = new Date(date);
@@ -32,6 +39,7 @@ const toUiPayout = (payout: PayoutItem): UiPayout => {
         id: payout._id,
         date: formatDate(payout.createdAt),
         amount: Number(payout.amount) || 0,
+        currency: (payout.currency || DEFAULT_CURRENCY) as 'USD' | 'GBP' | 'EUR',
         accountType: payout.accountType || '-',
         type: payout.type || '-',
         status: (payout.status || 'placed').toLowerCase(),
@@ -53,6 +61,7 @@ export default function PayoutHistoryPage() {
         accountType: 'standard' as 'standard' | 'professional',
         type: 'crypto' as 'crypto' | 'bank',
         amount: '',
+        currency: DEFAULT_CURRENCY,
     });
     const [isCreating, setIsCreating] = useState(false);
     const [createMessage, setCreateMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
@@ -135,13 +144,14 @@ export default function PayoutHistoryPage() {
         try {
             const payload: CreatePayoutRequest = {
                 amount,
+                currency: createForm.currency,
                 accountType: createForm.accountType,
                 type: createForm.type,
             };
             const response = await payoutService.create(payload);
             if (response?.status === 200 || response?.status === 201) {
                 setCreateMessage({ type: 'success', text: response?.message || 'Payout request created successfully!' });
-                setCreateForm({ accountType: 'standard', type: 'crypto', amount: '' });
+                setCreateForm({ accountType: 'standard', type: 'crypto', amount: '', currency: DEFAULT_CURRENCY });
                 // Refresh list
                 fetchPayouts();
 
@@ -307,7 +317,9 @@ export default function PayoutHistoryPage() {
                                                         <span className="text-[var(--text-muted)] font-inter text-[12px] capitalize">{payout.accountType}</span>
                                                     </td>
                                                     <td className="py-4 px-4 font-orbitron text-[12px] font-bold">
-                                                        <span className="text-red-400">-${Math.abs(payout.amount).toFixed(2)}</span>
+                                                        <span className="text-red-400">
+                                                            -{getCurrencyMeta(payout.currency).symbol}{Math.abs(payout.amount).toFixed(2)}
+                                                        </span>
                                                     </td>
                                                     <td className="py-4 px-4">
                                                         <div className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-sm border border-black/5 ${statusStyle.bg} ${statusStyle.text} font-inter text-[10px] font-bold uppercase tracking-wider`}>
@@ -407,9 +419,29 @@ export default function PayoutHistoryPage() {
                                     </div>
                                 </div>
 
-                                {/* Amount */}
+                                {/* Currency */}
                                 <div className="flex flex-col gap-2">
-                                    <label className="text-[10px] text-[var(--text-muted)] font-bold uppercase tracking-wider">Amount (USD)</label>
+                                    <label className="text-[10px] text-[var(--text-muted)] font-bold uppercase tracking-wider">Currency</label>
+                                    <div className="relative">
+                                        <select
+                                            value={createForm.currency}
+                                            onChange={(e) => setCreateForm({ ...createForm, currency: e.target.value as 'USD' | 'GBP' | 'EUR' })}
+                                            className="w-full bg-[var(--bg-primary)] border border-[var(--border-primary)] rounded-sm py-3 px-4 pr-10 text-white font-inter text-sm appearance-none focus:outline-none focus:border-[var(--bg-green-primary)] transition-all cursor-pointer"
+                                        >
+                                            {CURRENCIES.map((currency) => (
+                                                <option key={currency.code} value={currency.code}>
+                                                    {currency.code}
+                                                </option>
+                                            ))}
+                                        </select>
+                                        <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-[var(--text-muted)] pointer-events-none" size={16} />
+                                    </div>
+                                </div>
+
+                                <div className="flex flex-col gap-2">
+                                    <label className="text-[10px] text-[var(--text-muted)] font-bold uppercase tracking-wider">
+                                        Amount ({createForm.currency})
+                                    </label>
                                     <div className="relative">
                                         <DollarSign className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--bg-green-primary)]" size={16} />
                                         <input

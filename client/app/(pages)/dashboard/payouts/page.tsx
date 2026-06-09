@@ -7,6 +7,7 @@ import {
 import { payoutService, PayoutItem } from '@/app/services';
 import { PayoutUser } from '@/app/services/payoutService';
 import { useAuth } from '@/app/context/AuthContext';
+import { CURRENCIES } from '@/app/context/CurrencyContext';
 
 const STATUS_OPTIONS = ['placed', 'pending', 'complete', 'rejected'] as const;
 
@@ -32,6 +33,9 @@ const getUserInfo = (userId: PayoutItem['userId']): { name: string; email: strin
     }
     return { name: '-', email: '-' };
 };
+
+const getCurrencyMeta = (code?: string) =>
+    CURRENCIES.find((currency) => currency.code === code) ?? CURRENCIES[0];
 
 export default function PayoutsPage() {
     const { user } = useAuth();
@@ -236,7 +240,7 @@ export default function PayoutsPage() {
                                                 <div className="text-xs font-mono text-dash-text-primary">{payout._id.slice(0, 8)}…{payout._id.slice(-4)}</div>
                                             </td>
                                             <td className="px-4 py-3 whitespace-nowrap font-semibold text-dash-text-primary">
-                                                ${Number(payout.amount || 0).toFixed(2)}
+                                                {getCurrencyMeta(payout.currency).symbol}{Number(payout.amount || 0).toFixed(2)}
                                             </td>
                                             <td className="px-4 py-3 whitespace-nowrap">
                                                 <span className="text-xs capitalize text-dash-text-primary font-medium">{payout.type === 'crypto' ? 'Crypto' : 'Bank Transfer'}</span>
@@ -354,7 +358,7 @@ export default function PayoutsPage() {
                                     <table className="w-full text-sm">
                                         <tbody className="divide-y divide-dash-border">
                                             <tr><td className="py-2 text-dash-text-secondary font-medium w-1/3">Date</td><td className="py-2 text-dash-text-primary">{date} {time}</td></tr>
-                                            <tr><td className="py-2 text-dash-text-secondary font-medium">Amount</td><td className="py-2 text-dash-text-primary font-semibold">${Number(detailPayout.amount || 0).toFixed(2)}</td></tr>
+                                            <tr><td className="py-2 text-dash-text-secondary font-medium">Amount</td><td className="py-2 text-dash-text-primary font-semibold">{getCurrencyMeta(detailPayout.currency).symbol}{Number(detailPayout.amount || 0).toFixed(2)}</td></tr>
                                             <tr><td className="py-2 text-dash-text-secondary font-medium">Method</td><td className="py-2 text-dash-text-primary capitalize">{detailPayout.type === 'crypto' ? 'Crypto' : 'Bank Transfer'}</td></tr>
                                             <tr><td className="py-2 text-dash-text-secondary font-medium">Account Type</td><td className="py-2 text-dash-text-primary capitalize">{detailPayout.accountType || '—'}</td></tr>
                                             <tr>
