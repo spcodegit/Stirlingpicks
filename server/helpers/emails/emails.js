@@ -10,7 +10,6 @@ const {
     supportRequestNotificationTemplate,
     payoutRequestNotificationTemplate,
 } = require("./templates");
-const path = require("path");
 
 const escapeHtml = (value) =>
     String(value ?? "")
@@ -55,7 +54,6 @@ function sendAdminCopies(html, subject, adminContext) {
         to: recipients.join(", "),
         subject: `[Admin] ${subject}`,
         html: htmlAdmin,
-        attachments: [logoAttachment],
     };
 
     transporter.sendMail(mailOptions, (error, info) => {
@@ -66,10 +64,9 @@ function sendAdminCopies(html, subject, adminContext) {
 
 const transporter = nodemailer.createTransport(
     smtpTransport({
-        service: CONFIG.MAIL_SERVICE,
         host: CONFIG.MAIL_HOST,
         port: CONFIG.MAIL_PORT,
-        secure: CONFIG.MAIL_SERVICE === 'gmail'? true : false,
+        secure: CONFIG.MAIL_SERVICE === CONFIG.MAIL_SECURE,
         auth: {
             user: CONFIG.MAIL_USERNAME,
             pass: CONFIG.MAIL_PASSWORD,
@@ -77,20 +74,13 @@ const transporter = nodemailer.createTransport(
     }),
 )
 
-const logoAttachment = {
-    filename: 'logo.png',
-    path: path.join(__dirname, '../../../client/public/images/logo.png'),
-    cid: 'logo' 
-};
-
 // send user verification mail
 module.exports.sendUserVerificationEmail = function (email, code) {
     const mailOptions = {
-        from: CONFIG.MAIL_USERNAME,
+        from: `Verify Your Email - <${CONFIG.MAIL_USERNAME}>`,
         to: email,
         subject: `Verify Your Email - ${CONFIG.COMPANY_NAME}`,
         html: userEmailVerificationTemplate(code),
-        attachments: [logoAttachment]
     };
 
     transporter.sendMail(mailOptions, (error, info) => {
@@ -102,11 +92,10 @@ module.exports.sendUserVerificationEmail = function (email, code) {
 // send forgot password mail
 module.exports.sendForgotPasswordEmail = function (email, password) {
     const mailOptions = {
-        from: CONFIG.MAIL_USERNAME,
+        from: `Forgot Password - <${CONFIG.MAIL_USERNAME}>`,
         to: email,
         subject: `Forgot Password - ${CONFIG.COMPANY_NAME}`,
         html: userForgotPasswordTemplate(password),
-        attachments: [logoAttachment]
     };
 
     transporter.sendMail(mailOptions, (error, info) => {
@@ -122,11 +111,10 @@ module.exports.sendOrderPaymentStatusEmail = function (email, payload) {
     const html = orderPaymentStatusTemplate(data);
 
     const mailOptions = {
-        from: CONFIG.MAIL_USERNAME,
+        from: `Payment ${String(data.status || "").toUpperCase()} - <${CONFIG.MAIL_USERNAME}>`,
         to: email,
         subject,
         html,
-        attachments: [logoAttachment],
     };
 
     transporter.sendMail(mailOptions, (error, info) => {
@@ -144,11 +132,10 @@ module.exports.sendBetPlacedEmail = function (email, payload) {
     const html = betPlacedTemplate(data);
 
     const mailOptions = {
-        from: CONFIG.MAIL_USERNAME,
+        from: `Bet Placed - <${CONFIG.MAIL_USERNAME}>`,
         to: email,
         subject,
         html,
-        attachments: [logoAttachment],
     };
 
     transporter.sendMail(mailOptions, (error, info) => {
@@ -166,11 +153,10 @@ module.exports.sendBetResultEmail = function (email, payload) {
     const html = betResultTemplate(data);
 
     const mailOptions = {
-        from: CONFIG.MAIL_USERNAME,
+        from: `Bet ${String(data.status || "").toUpperCase()} - <${CONFIG.MAIL_USERNAME}>`,
         to: email,
         subject,
         html,
-        attachments: [logoAttachment],
     };
 
     transporter.sendMail(mailOptions, (error, info) => {
@@ -193,11 +179,12 @@ module.exports.sendSupportRequestEmail = function (email, payload) {
     const html = supportRequestNotificationTemplate(data);
 
     const mailOptions = {
-        from: CONFIG.MAIL_USERNAME,
+        from: event === "created"
+            ? `Support request received - <${CONFIG.MAIL_USERNAME}>`
+            : `Support request ${statusPart} - <${CONFIG.MAIL_USERNAME}>`,
         to: email,
         subject,
         html,
-        attachments: [logoAttachment],
     };
 
     transporter.sendMail(mailOptions, (error, info) => {
@@ -220,11 +207,12 @@ module.exports.sendPayoutRequestEmail = function (email, payload) {
     const html = payoutRequestNotificationTemplate(data);
 
     const mailOptions = {
-        from: CONFIG.MAIL_USERNAME,
+        from: event === "created"
+            ? `Payout request received - <${CONFIG.MAIL_USERNAME}>`
+            : `Payout request ${statusPart} - <${CONFIG.MAIL_USERNAME}>`,
         to: email,
         subject,
         html,
-        attachments: [logoAttachment],
     };
 
     transporter.sendMail(mailOptions, (error, info) => {

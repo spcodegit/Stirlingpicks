@@ -25,5 +25,6 @@ module.exports.CONFIG = {
     NOW_PAYMENT_SECRET_KEY: process.env.NOW_PAYMENT_SECRET_KEY,
     NOW_PAYMENT_URL: process.env.NOW_PAYMENT_URL,
     PAGE_LIMIT: process.env.PAGE_LIMIT,
-    SECRET_SEED_CODE: process.env.SECRET_SEED_CODE
+    SECRET_SEED_CODE: process.env.SECRET_SEED_CODE,
+    MAIL_SECURE: process.env.MAIL_SECURE,
 }
