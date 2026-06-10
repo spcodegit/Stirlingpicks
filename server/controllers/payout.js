@@ -17,7 +17,6 @@ const create = async (req, res) => {
     try {
 
         const {amount, accountType} = req.body
-        req.body.currency = String(req.body.currency ).toUpperCase();
 
         // const existingRequest = await Payout.findOne({userId: req?.user?._id, status: { $in: [PAYOUT_STATUS.PLACED, PAYOUT_STATUS.PENDING] }})
         // if (existingRequest) return json(res, statusCode.BAD_REQUEST, "User already has a pending or placed payout request.");
