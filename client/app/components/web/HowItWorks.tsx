@@ -17,8 +17,8 @@ const steps = [
   },
   {
     number: "3",
-    title: "GET 4 X £5 FREE BETS",
-    description: "on sports"
+    title: "RECEIVE £100,000 IN CAPITAL",
+    description: "Amplify your bets with Pro"
   }
 ];
 

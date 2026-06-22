@@ -26,7 +26,7 @@ const terms = [
   "22. The same Maximum Pay Out restrictions set out in our General Website Terms & Conditions will equally apply to this Sports Promotion.",
   "23. IMPORTANT TERMS",
   "24. Promoter: LC International Limited having its registered office at Suite 6, Atlantic Suites, Europort Avenue, Gibraltar",
-  "25. This Sports Promotion cannot be used in conjunction with any other Ladbrokes.com Sports Promotion.",
+  "25. This Sports Promotion cannot be used in conjunction with any other Stirlingpicks.com Sports Promotion.",
   "26. We reserve the right to change or end any Sports Promotion, if required for legal and/or regulatory reasons.",
   "27. If you have made one or more qualifying bets in relation to this Sports Promotion, but your bets are subsequently restricted by us, we will make sure that this will not materially affect your ability to satisfy the conditions to qualify for this Sports Promotion (if applicable) or to fully benefit from the free bets available.",
   "28. We may place restrictions on your account in order to comply with our legal and regulatory obligations (this could include deposit restrictions and restrictions on the bonus offers that you can participate in. We will not be responsible should these restrictions and/or responsible Safer Gambling measures, affect your ability to complete the requirements of this promotion and/or to receive any bonus, benefits or prizes.",
