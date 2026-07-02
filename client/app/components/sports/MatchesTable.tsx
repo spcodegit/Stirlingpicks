@@ -205,173 +205,179 @@ export default function MatchesTable({ leaguesData = {}, oddsFormat, onOddsForma
             </div>
 
             <div className="bg-[var(--bg-primary)] sm:bg-transparent max-h-[calc(100vh-220px)] overflow-y-auto custom-scrollbar pr-1">
-                {activeMatches.map((match) => (
-                    <div key={match.id}>
-                        {/* Mobile Card View */}
-                        <div className="sm:hidden mb-4 bg-[var(--bg-secondary)] border border-[var(--border-primary)] rounded-lg p-4 shadow-sm">
-                            <div className="flex justify-between items-center mb-3">
-                                <span className="text-[var(--text-tertiary)] font-inter text-[11px] font-medium">
-                                    {match.dateTime}
-                                </span>
-                                <div className="flex items-center gap-2">
+                {activeMatches.length > 0 ? (
+                    activeMatches.map((match) => (
+                        <div key={match.id}>
+                            {/* Mobile Card View */}
+                            <div className="sm:hidden mb-4 bg-[var(--bg-secondary)] border border-[var(--border-primary)] rounded-lg p-4 shadow-sm">
+                                <div className="flex justify-between items-center mb-3">
+                                    <span className="text-[var(--text-tertiary)] font-inter text-[11px] font-medium">
+                                        {match.dateTime}
+                                    </span>
+                                    <div className="flex items-center gap-2">
+                                        <Ticket size={14} className="text-[var(--text-yellow)] rotate-[-45deg] opacity-70" />
+                                        <span className="text-[var(--text-muted)] font-inter font-bold text-[12px]">
+                                            {match.points}
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div className="mb-4 text-left">
+                                    <div className="flex flex-col gap-1">
+                                        <h3 className="text-[var(--text-primary)] font-inter font-bold text-[15px] leading-tight">
+                                            {match.homeTeam}
+                                        </h3>
+                                        <span className="text-[var(--bg-yellow-primary)]/40 text-[10px] font-black">VS</span>
+                                        <h3 className="text-[var(--text-primary)] font-inter font-bold text-[15px] leading-tight">
+                                            {match.awayTeam}
+                                        </h3>
+                                    </div>
+                                </div>
+
+                                <div className="grid grid-cols-3 gap-2">
+                                    {[
+                                        { type: 'home', label: 'Home', odds: match.odds.home },
+                                        { type: 'draw', label: 'Draw', odds: match.odds.draw },
+                                        { type: 'away', label: 'Away', odds: match.odds.away }
+                                    ].map((choice) => (
+                                        <div
+                                            key={choice.type}
+                                            onClick={() => choice.odds !== 'N/A' && handleBetClick(match, choice.type as any)}
+                                            className={`
+                                                flex flex-col items-center py-2 px-1 rounded-md border border-transparent transition-all
+                                                ${choice.odds === 'N/A' ? 'opacity-40 cursor-not-allowed' : 'cursor-pointer'}
+                                                ${match.highlighted === choice.type
+                                                    ? 'bg-[var(--bg-yellow-primary)] border-[var(--bg-yellow-primary)]'
+                                                    : choice.odds !== 'N/A' ? 'bg-[var(--bg-tertiary)] hover:border-[var(--bg-yellow-primary)]/40' : 'bg-[var(--bg-tertiary)]'
+                                                }
+                                            `}
+                                        >
+                                            <span className={`text-[9px] uppercase font-bold mb-0.5 ${match.highlighted === choice.type ? 'text-[var(--text-black)]/60' : 'text-[var(--text-muted)]'}`}>
+                                                {choice.label}
+                                            </span>
+                                            <span className={`text-[15px] font-black font-inter ${match.highlighted === choice.type ? 'text-[var(--text-black)]' : 'text-[var(--text-primary)]'}`}>
+                                                {choice.odds}
+                                            </span>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+
+                            {/* Desktop Row View */}
+                            <div
+                                className={`
+                                    hidden sm:grid sm:grid-cols-[80px_minmax(150px,1fr)_80px_100px_100px_100px_100px]
+                                    items-center border-b border-[var(--border-primary)] bg-[var(--bg-secondary)]
+                                    transition-colors hover:bg-[var(--bg-tertiary)]/50
+                                `}
+                            >
+                                <div className="flex items-center py-3 px-2">
+                                    <span className="text-[var(--text-tertiary)] font-inter text-[12px] whitespace-nowrap">
+                                        {match.dateTime}
+                                    </span>
+                                </div>
+
+                                <div className="py-3 px-3 flex items-center gap-2 min-w-0">
+                                    <span className="text-[var(--text-primary)] font-inter font-bold text-[13px] truncate">
+                                        {match.homeTeam} <span className="text-[var(--bg-yellow-primary)]/40 mx-1">VS</span> {match.awayTeam}
+                                    </span>
+                                </div>
+
+                                <div className="flex items-center justify-center py-3">
                                     <Ticket size={14} className="text-[var(--text-yellow)] rotate-[-45deg] opacity-70" />
-                                    <span className="text-[var(--text-muted)] font-inter font-bold text-[12px]">
+                                </div>
+
+                                {/* Home Odds */}
+                                <div className="py-2 px-2 flex justify-center">
+                                    <div
+                                        onClick={() => match.odds.home !== 'N/A' && handleBetClick(match, 'home')}
+                                        className={`
+                                            w-full py-2 rounded-[4px] text-center
+                                            transition-all duration-200 border border-transparent
+                                            ${match.odds.home === 'N/A' ? 'opacity-40 cursor-not-allowed' : 'cursor-pointer'}
+                                            ${match.highlighted === 'home'
+                                                ? 'bg-[var(--bg-yellow-primary)] hover:bg-[var(--bg-yellow-hover)]'
+                                                : match.odds.home !== 'N/A' ? 'bg-[var(--bg-tertiary)] hover:border-[var(--bg-yellow-primary)]/50 group' : 'bg-[var(--bg-tertiary)]'
+                                            }
+                                        `}
+                                    >
+                                        <span className={`
+                                            font-inter font-bold text-[14px]
+                                            ${match.highlighted === 'home'
+                                                ? 'text-[var(--text-black)]'
+                                                : 'text-[var(--text-primary)] group-hover:text-[var(--text-yellow)]'
+                                            }
+                                        `}>
+                                            {match.odds.home}
+                                        </span>
+                                    </div>
+                                </div>
+
+                                {/* Draw Odds */}
+                                <div className="py-2 px-2 flex justify-center">
+                                    <div
+                                        onClick={() => match.odds.draw !== 'N/A' && handleBetClick(match, 'draw')}
+                                        className={`
+                                            w-full py-2 rounded-[4px] text-center
+                                            transition-all duration-200 border border-transparent
+                                            ${match.odds.draw === 'N/A' ? 'opacity-40 cursor-not-allowed' : 'cursor-pointer'}
+                                            ${match.highlighted === 'draw'
+                                                ? 'bg-[var(--bg-yellow-primary)] hover:bg-[var(--bg-yellow-hover)]'
+                                                : match.odds.draw !== 'N/A' ? 'bg-[var(--bg-tertiary)] hover:border-[var(--bg-yellow-primary)]/50 group' : 'bg-[var(--bg-tertiary)]'
+                                            }
+                                        `}
+                                    >
+                                        <span className={`
+                                            font-inter font-bold text-[14px]
+                                            ${match.highlighted === 'draw'
+                                                ? 'text-[var(--text-black)]'
+                                                : 'text-[var(--text-primary)] group-hover:text-[var(--text-yellow)]'
+                                            }
+                                        `}>
+                                            {match.odds.draw}
+                                        </span>
+                                    </div>
+                                </div>
+
+                                {/* Away Odds */}
+                                <div className="py-2 px-2 flex justify-center">
+                                    <div
+                                        onClick={() => match.odds.away !== 'N/A' && handleBetClick(match, 'away')}
+                                        className={`
+                                            w-full py-2 rounded-[4px] text-center
+                                            transition-all duration-200 border border-transparent
+                                            ${match.odds.away === 'N/A' ? 'opacity-40 cursor-not-allowed' : 'cursor-pointer'}
+                                            ${match.highlighted === 'away'
+                                                ? 'bg-[var(--bg-yellow-primary)] hover:bg-[var(--bg-yellow-hover)]'
+                                                : match.odds.away !== 'N/A' ? 'bg-[var(--bg-tertiary)] hover:border-[var(--bg-yellow-primary)]/50 group' : 'bg-[var(--bg-tertiary)]'
+                                            }
+                                        `}
+                                    >
+                                        <span className={`
+                                            font-inter font-bold text-[14px]
+                                            ${match.highlighted === 'away'
+                                                ? 'text-[var(--text-black)]'
+                                                : 'text-[var(--text-primary)] group-hover:text-[var(--text-yellow)]'
+                                            }
+                                        `}>
+                                            {match.odds.away}
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div className="py-3 px-2 flex justify-center items-center">
+                                    <span className="text-[var(--text-muted)] font-inter font-medium text-[13px]">
                                         {match.points}
                                     </span>
                                 </div>
                             </div>
-
-                            <div className="mb-4 text-left">
-                                <div className="flex flex-col gap-1">
-                                    <h3 className="text-[var(--text-primary)] font-inter font-bold text-[15px] leading-tight">
-                                        {match.homeTeam}
-                                    </h3>
-                                    <span className="text-[var(--bg-yellow-primary)]/40 text-[10px] font-black">VS</span>
-                                    <h3 className="text-[var(--text-primary)] font-inter font-bold text-[15px] leading-tight">
-                                        {match.awayTeam}
-                                    </h3>
-                                </div>
-                            </div>
-
-                            <div className="grid grid-cols-3 gap-2">
-                                {[
-                                    { type: 'home', label: 'Home', odds: match.odds.home },
-                                    { type: 'draw', label: 'Draw', odds: match.odds.draw },
-                                    { type: 'away', label: 'Away', odds: match.odds.away }
-                                ].map((choice) => (
-                                    <div
-                                        key={choice.type}
-                                        onClick={() => choice.odds !== 'N/A' && handleBetClick(match, choice.type as any)}
-                                        className={`
-                                            flex flex-col items-center py-2 px-1 rounded-md border border-transparent transition-all
-                                            ${choice.odds === 'N/A' ? 'opacity-40 cursor-not-allowed' : 'cursor-pointer'}
-                                            ${match.highlighted === choice.type
-                                                ? 'bg-[var(--bg-yellow-primary)] border-[var(--bg-yellow-primary)]'
-                                                : choice.odds !== 'N/A' ? 'bg-[var(--bg-tertiary)] hover:border-[var(--bg-yellow-primary)]/40' : 'bg-[var(--bg-tertiary)]'
-                                            }
-                                        `}
-                                    >
-                                        <span className={`text-[9px] uppercase font-bold mb-0.5 ${match.highlighted === choice.type ? 'text-[var(--text-black)]/60' : 'text-[var(--text-muted)]'}`}>
-                                            {choice.label}
-                                        </span>
-                                        <span className={`text-[15px] font-black font-inter ${match.highlighted === choice.type ? 'text-[var(--text-black)]' : 'text-[var(--text-primary)]'}`}>
-                                            {choice.odds}
-                                        </span>
-                                    </div>
-                                ))}
-                            </div>
                         </div>
-
-                        {/* Desktop Row View */}
-                        <div
-                            className={`
-                                hidden sm:grid sm:grid-cols-[80px_minmax(150px,1fr)_80px_100px_100px_100px_100px]
-                                items-center border-b border-[var(--border-primary)] bg-[var(--bg-secondary)]
-                                transition-colors hover:bg-[var(--bg-tertiary)]/50
-                            `}
-                        >
-                            <div className="flex items-center py-3 px-2">
-                                <span className="text-[var(--text-tertiary)] font-inter text-[12px] whitespace-nowrap">
-                                    {match.dateTime}
-                                </span>
-                            </div>
-
-                            <div className="py-3 px-3 flex items-center gap-2 min-w-0">
-                                <span className="text-[var(--text-primary)] font-inter font-bold text-[13px] truncate">
-                                    {match.homeTeam} <span className="text-[var(--bg-yellow-primary)]/40 mx-1">VS</span> {match.awayTeam}
-                                </span>
-                            </div>
-
-                            <div className="flex items-center justify-center py-3">
-                                <Ticket size={14} className="text-[var(--text-yellow)] rotate-[-45deg] opacity-70" />
-                            </div>
-
-                            {/* Home Odds */}
-                            <div className="py-2 px-2 flex justify-center">
-                                <div
-                                    onClick={() => match.odds.home !== 'N/A' && handleBetClick(match, 'home')}
-                                    className={`
-                                        w-full py-2 rounded-[4px] text-center
-                                        transition-all duration-200 border border-transparent
-                                        ${match.odds.home === 'N/A' ? 'opacity-40 cursor-not-allowed' : 'cursor-pointer'}
-                                        ${match.highlighted === 'home'
-                                            ? 'bg-[var(--bg-yellow-primary)] hover:bg-[var(--bg-yellow-hover)]'
-                                            : match.odds.home !== 'N/A' ? 'bg-[var(--bg-tertiary)] hover:border-[var(--bg-yellow-primary)]/50 group' : 'bg-[var(--bg-tertiary)]'
-                                        }
-                                    `}
-                                >
-                                    <span className={`
-                                        font-inter font-bold text-[14px]
-                                        ${match.highlighted === 'home'
-                                            ? 'text-[var(--text-black)]'
-                                            : 'text-[var(--text-primary)] group-hover:text-[var(--text-yellow)]'
-                                        }
-                                    `}>
-                                        {match.odds.home}
-                                    </span>
-                                </div>
-                            </div>
-
-                            {/* Draw Odds */}
-                            <div className="py-2 px-2 flex justify-center">
-                                <div
-                                    onClick={() => match.odds.draw !== 'N/A' && handleBetClick(match, 'draw')}
-                                    className={`
-                                        w-full py-2 rounded-[4px] text-center
-                                        transition-all duration-200 border border-transparent
-                                        ${match.odds.draw === 'N/A' ? 'opacity-40 cursor-not-allowed' : 'cursor-pointer'}
-                                        ${match.highlighted === 'draw'
-                                            ? 'bg-[var(--bg-yellow-primary)] hover:bg-[var(--bg-yellow-hover)]'
-                                            : match.odds.draw !== 'N/A' ? 'bg-[var(--bg-tertiary)] hover:border-[var(--bg-yellow-primary)]/50 group' : 'bg-[var(--bg-tertiary)]'
-                                        }
-                                    `}
-                                >
-                                    <span className={`
-                                        font-inter font-bold text-[14px]
-                                        ${match.highlighted === 'draw'
-                                            ? 'text-[var(--text-black)]'
-                                            : 'text-[var(--text-primary)] group-hover:text-[var(--text-yellow)]'
-                                        }
-                                    `}>
-                                        {match.odds.draw}
-                                    </span>
-                                </div>
-                            </div>
-
-                            {/* Away Odds */}
-                            <div className="py-2 px-2 flex justify-center">
-                                <div
-                                    onClick={() => match.odds.away !== 'N/A' && handleBetClick(match, 'away')}
-                                    className={`
-                                        w-full py-2 rounded-[4px] text-center
-                                        transition-all duration-200 border border-transparent
-                                        ${match.odds.away === 'N/A' ? 'opacity-40 cursor-not-allowed' : 'cursor-pointer'}
-                                        ${match.highlighted === 'away'
-                                            ? 'bg-[var(--bg-yellow-primary)] hover:bg-[var(--bg-yellow-hover)]'
-                                            : match.odds.away !== 'N/A' ? 'bg-[var(--bg-tertiary)] hover:border-[var(--bg-yellow-primary)]/50 group' : 'bg-[var(--bg-tertiary)]'
-                                        }
-                                    `}
-                                >
-                                    <span className={`
-                                        font-inter font-bold text-[14px]
-                                        ${match.highlighted === 'away'
-                                            ? 'text-[var(--text-black)]'
-                                            : 'text-[var(--text-primary)] group-hover:text-[var(--text-yellow)]'
-                                        }
-                                    `}>
-                                        {match.odds.away}
-                                    </span>
-                                </div>
-                            </div>
-
-                            <div className="py-3 px-2 flex justify-center items-center">
-                                <span className="text-[var(--text-muted)] font-inter font-medium text-[13px]">
-                                    {match.points}
-                                </span>
-                            </div>
-                        </div>
+                    ))
+                ) : (
+                    <div className="flex items-center justify-center h-full min-h-[320px]">
+                        <p className="text-[var(--text-muted)] font-inter">No matches available</p>
                     </div>
-                ))}
+                )}
             </div>
         </div>
     );

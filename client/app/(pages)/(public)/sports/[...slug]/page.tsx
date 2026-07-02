@@ -107,9 +107,7 @@ export default function SportsPage() {
                                 .map(m => convertToMatch(m as MatchOdds))
                                 .filter((m): m is Match => m !== null);
 
-                            if (formattedMatches.length > 0) {
-                                grouped[leagueName] = formattedMatches;
-                            }
+                            grouped[leagueName] = formattedMatches;
                         }
                     });
 
